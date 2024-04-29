@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('speakers', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 45);
-            $table->string('lastname', 45);
-            $table->string('description', 255);
-            $table->string('facebook', 255)->nullable();
-            $table->string('instagram', 255)->nullable();
+            $table->string('first_name', 45);
+            $table->string('last_name', 45);
+            $table->text('description');
+            $table->string('picture', 255);
             $table->string('linkedin', 255)->nullable();
             $table->timestamps();
         });

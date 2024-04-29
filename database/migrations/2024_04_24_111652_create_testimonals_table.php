@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('testimonals', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 45);
+            $table->string('name', 255);
             $table->string('image', 255);
             $table->string('testimonal_text', 255);
             $table->unsignedBigInteger('conference_id');

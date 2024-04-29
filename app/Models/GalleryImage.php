@@ -12,7 +12,7 @@ class GalleryImage extends Model
 
     protected $table = 'gallery_images';
 
-    protected $fillable = ["caption", "image", "gallery_id"];
+    protected $fillable = ["image", "gallery_id"];
 
     public function gallery(): BelongsTo
     {

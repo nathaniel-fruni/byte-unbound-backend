@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Sponsor;
 use Illuminate\Database\Seeder;
 
 class AddSponsors extends Seeder
@@ -14,15 +14,20 @@ class AddSponsors extends Seeder
     {
         $sponsors = [
             [
-                'name' => '',
-                'description' => '',
-                'logo' => '+'
+                'name' => 'Ataccama',
+                'logo' => 'jetbrains_logo.png'
             ],
             [
-                'name' => '',
-                'description' => '',
-                'logo' => ''
+                'name' => 'JetBrains',
+                'logo' => 'ataccama_logo.png'
             ]
         ];
+
+        foreach ($sponsors as $sponsorData) {
+            $sponsor = new Sponsor();
+            $sponsor->name = $sponsorData['name'];
+            $sponsor->logo = $sponsorData['logo'];
+            $sponsor->save();
+        }
     }
 }

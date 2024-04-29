@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('talks', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 45);
-            $table->string('description', 255);
+            $table->string('title', 255);
+            $table->text('description');
             $table->integer('capacity');
             $table->unsignedBigInteger('speaker_id');
             $table->timestamps();

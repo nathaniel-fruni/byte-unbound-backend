@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string("first_name", 45);
             $table->string("last_name", 45);
-            $table->string("email", 100)->unique("email_index");
-            $table->string("password", 45);
+            $table->string("email", 100);
+            $table->text("password")->nullable();
             $table->string("role", 10);
             $table->string("remember_token", 255)->nullable();
             $table->timestamps();

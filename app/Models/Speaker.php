@@ -12,7 +12,7 @@ class Speaker extends Model
 
     protected $table = 'speakers';
 
-    protected $fillable = ["first_name", "last_name", "description", "facebook", "instagram", "linkedin"];
+    protected $fillable = ["first_name", "last_name", "description", "picture", "linkedin"];
 
     public function talk(): HasMany
     {

@@ -12,7 +12,7 @@ class Gallery extends Model
 
     protected $table = 'galleries';
 
-    protected $fillable = ["name", "description", "conference_id"];
+    protected $fillable = ["name", "conference_id"];
 
     public function conference(): BelongsTo
     {

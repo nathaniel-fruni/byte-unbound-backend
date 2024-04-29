@@ -12,7 +12,7 @@ class Sponsor extends Model
 
     protected $table = 'sponsors';
 
-    protected $fillable = ["name", "description", "logo"];
+    protected $fillable = ["name", "logo"];
 
     public function conference(): HasMany
     {

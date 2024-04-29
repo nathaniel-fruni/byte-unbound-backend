@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('talk_id')->constrained()->onDelete('cascade');
             $table->dateTime('registered_at');
-            $table->boolean('attended')->default(false);
+            $table->boolean('attended');
             $table->timestamps();
         });
     }
