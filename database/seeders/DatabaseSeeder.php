@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AddLocations::class,
+            AddAddresses::class,
             AddConferences::class,
             AddOrganizers::class,
             AddConferenceOrganizers::class,

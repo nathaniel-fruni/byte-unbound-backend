@@ -22,6 +22,7 @@ class AddConferences extends Seeder
                 'registration_deadline' => Carbon::create(2022, 6, 23, 23, 59, 59),
                 'contact_email' => 'info@byteunbound.sk',
                 'location_id' => 3,
+                'address_id' => 1
             ],
             [
                 'title' => 'byteUnbound23',
@@ -31,6 +32,7 @@ class AddConferences extends Seeder
                 'registration_deadline' => Carbon::create(2023, 6, 23, 23, 59, 59),
                 'contact_email' => 'info@byteunbound.sk',
                 'location_id' => 1,
+                'address_id' => 2
             ],
             [
                 'title' => 'byteUnbound24',
@@ -40,6 +42,7 @@ class AddConferences extends Seeder
                 'registration_deadline' => Carbon::create(2024, 6, 23, 23, 59, 59),
                 'contact_email' => 'info@byteunbound.sk',
                 'location_id' => 2,
+                'address_id' => 3
             ],
         ];
 
@@ -52,6 +55,7 @@ class AddConferences extends Seeder
             $conference->registration_deadline = $conferenceData['registration_deadline'];
             $conference->contact_email = $conferenceData['contact_email'];
             $conference->location_id = $conferenceData['location_id'];
+            $conference->address_id = $conferenceData['address_id'];
             $conference->save();
         }
     }

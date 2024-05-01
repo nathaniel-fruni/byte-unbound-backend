@@ -12,10 +12,15 @@ class Conference extends Model
 
     protected $table = 'conferences';
 
-    protected $fillable = ['title', 'description', 'start_date', 'end_date', 'registration_deadline', 'contact_email', 'location_id',];
+    protected $fillable = ['title', 'description', 'start_date', 'end_date', 'registration_deadline', 'contact_email', 'location_id', 'address_id'];
 
     public function location(): BelongsTo
     {
         return $this->belongsTo(Location::class);
+    }
+
+    public function address(): BelongsTo
+    {
+        return $this->belongsTo(Address::class);
     }
 }

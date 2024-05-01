@@ -33,6 +33,7 @@ class AddOrganizers extends Seeder
             $organizer = new Organizer();
             $organizer->first_name = $organizerData['first_name'];
             $organizer->last_name = $organizerData['last_name'];
+            $organizer->image = $organizerData['image'];
             $organizer->phone = $organizerData['phone'];
             $organizer->email = $organizerData['email'];
             $organizer->save();
