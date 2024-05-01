@@ -12,7 +12,7 @@ class Organizer extends Model
 
     protected $table = 'organizers';
 
-    protected $fillable = ["first_name", "last_name", "phone", "email"];
+    protected $fillable = ["first_name", "last_name", "image", "phone", "email"];
 
     public function conference(): HasMany
     {

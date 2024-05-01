@@ -16,12 +16,14 @@ class AddOrganizers extends Seeder
             [
                 'first_name' => 'Dominik',
                 'last_name' => 'Halvoník',
+                'image' => 'halvonik.jpg',
                 'phone' => '+421902170744',
                 'email' => 'dhalvonik@ukf.sk'
             ],
             [
                 'first_name' => 'Jaroslav',
                 'last_name' => 'Reichel',
+                'image' => 'reichel.jpg',
                 'phone' => '+421904687757',
                 'email' => 'jreichel@ukf.sk'
             ]
