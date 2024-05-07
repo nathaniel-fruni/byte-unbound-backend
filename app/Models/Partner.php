@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Partner extends Model
@@ -14,8 +15,13 @@ class Partner extends Model
 
     protected $fillable = ["name", "logo", "website"];
 
-    public function conference(): HasMany
+    public function conference(): BelongsToMany
     {
-        return $this->hasMany(Conference::class);
+        return $this->belongsToMany(Conference::class);
+    }
+
+    public function speaker(): HasMany
+    {
+        return $this->hasMany(Speaker::class);
     }
 }

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Sponsor extends Model
@@ -14,8 +16,8 @@ class Sponsor extends Model
 
     protected $fillable = ["name", "logo"];
 
-    public function conference(): HasMany
+    public function conference(): BelongsToMany
     {
-        return $this->hasMany(Conference::class);
+        return $this->belongsToMany(Conference::class);
     }
 }

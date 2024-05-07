@@ -26,7 +26,6 @@ class DatabaseSeeder extends Seeder
             AddGalleries::class,
             AddGalleryImages::class,
             AddSpeakers::class,
-            AddSpeakerPartners::class,
             AddTalks::class,
             AddStages::class,
             AddTimeSlots::class,

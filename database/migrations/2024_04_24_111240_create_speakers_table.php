@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('first_name', 45);
             $table->string('last_name', 45);
-            $table->text('description');
+            $table->text('short_description');
+            $table->text('long_description');
             $table->string('picture', 255);
             $table->string('linkedin', 255)->nullable();
+            $table->integer('partner_id');
             $table->timestamps();
         });
     }

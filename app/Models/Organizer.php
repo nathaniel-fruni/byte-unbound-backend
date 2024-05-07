@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Organizer extends Model
@@ -14,8 +15,8 @@ class Organizer extends Model
 
     protected $fillable = ["first_name", "last_name", "image", "phone", "email"];
 
-    public function conference(): HasMany
+    public function conference(): BelongsToMany
     {
-        return $this->hasMany(Conference::class);
+        return $this->belongsToMany(Conference::class);
     }
 }

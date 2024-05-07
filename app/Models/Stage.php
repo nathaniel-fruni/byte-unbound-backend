@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Stage extends Model
 {
@@ -14,13 +16,18 @@ class Stage extends Model
 
     protected $fillable = ["name"];
 
-    public function conference(): HasMany
+    public function conference(): BelongsToMany
     {
-        return $this->hasMany(Conference::class);
+        return $this->belongsToMany(Conference::class);
     }
 
-    public function talk(): HasMany
+    public function timeSlots(): HasMany
     {
-        return $this->hasMany(Talk::class);
+        return $this->hasMany(TimeSlot::class);
+    }
+
+    public function talks(): HasManyThrough
+    {
+        return $this->hasManyThrough(Talk::class, TimeSlot::class);
     }
 }
