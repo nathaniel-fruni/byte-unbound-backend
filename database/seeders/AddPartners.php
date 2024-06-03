@@ -20,7 +20,7 @@ class AddPartners extends Seeder
             ],
             [
                 'name' => 'PowerPlay Studio',
-                'logo' => 'powerplaystudio.png',
+                'logo' => 'powerplaystudio_logo.png',
                 'website' => 'https://www.powerplay.studio/sk'
             ],
             [
@@ -50,7 +50,7 @@ class AddPartners extends Seeder
             ],
             [
                 'name' => 'Edix',
-                'logo' => 'edix.logo.png',
+                'logo' => 'edix_logo.png',
                 'website' => 'https://www.edix.sk'
             ],
             [

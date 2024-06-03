@@ -43,10 +43,10 @@ Route::patch('/update-user/{id}', [UserController::class, 'updateUser']);
 Route::delete('/delete-user/{id}', [UserController::class, 'deleteUser']);
 
 Route::get('/get-testimonals', [TestimonalController::class, 'getTestimonals']);
-Route::get('/get-testimonal-byId/{id}', [TestimonalController::class, 'getTestimonalById']);
-Route::post('create-testimonal', [TestimonalController::class, 'createTestimonal']);
-Route::patch('/update-testimonal/{id}', [TestimonalController::class, 'updateTestimonal']);
-Route::delete('/delete-testimonal/{id}', [TestimonalController::class, 'deleteTestimonal']);
+Route::get('/get-testimonals-byId/{id}', [TestimonalController::class, 'getTestimonalById']);
+Route::post('create-testimonals', [TestimonalController::class, 'createTestimonal']);
+Route::patch('/update-testimonals/{id}', [TestimonalController::class, 'updateTestimonal']);
+Route::delete('/delete-testimonals/{id}', [TestimonalController::class, 'deleteTestimonal']);
 
 Route::get('/get-organizers', [OrganizerController::class, 'getOrganizers']);
 Route::get('/get-organizer-byId/{id}', [OrganizerController::class, 'getOrganizerById']);
