@@ -12,7 +12,7 @@ class Address extends Model
 
     protected $table = 'addresses';
 
-    protected $fillable = ["building", "street", "number", "phone", "postal_code", "city"];
+    protected $fillable = ["building", "street", "number", "postal_code", "city"];
 
     public function conference(): HasMany
     {
