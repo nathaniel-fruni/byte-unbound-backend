@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('conferences', function (Blueprint $table) {
             $table->id();
             $table->string('title', 45);
-            $table->string('description', 255);
+            $table->string('short_description', 255);
+            $table->text('long_description');
+            $table->string('info1', 255);
+            $table->string('info2', 255);
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->dateTime('registration_deadline');

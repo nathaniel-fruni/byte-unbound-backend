@@ -15,7 +15,7 @@ class Conference extends Model
 
     protected $table = 'conferences';
 
-    protected $fillable = ['title', 'description', 'start_date', 'end_date', 'registration_deadline', 'contact_email', 'location_id', 'address_id'];
+    protected $fillable = ['title', 'short_description', 'long_description', 'info1', 'info2', 'start_date', 'end_date', 'registration_deadline', 'contact_email', 'location_id', 'address_id'];
 
     public function location(): BelongsTo
     {

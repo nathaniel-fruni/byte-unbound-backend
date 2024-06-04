@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class ConferenceController extends Controller
 {
-    private $fillableAttributes = ['title', 'description', 'start_date', 'end_date', 'registration_deadline', 'contact_email', 'location_id', 'address_id'];
+    private $fillableAttributes = ['title', 'short_description', 'long_description', 'info1', 'info2', 'start_date', 'end_date', 'registration_deadline', 'contact_email', 'location_id', 'address_id'];
     public function getConferences()
     {
         $conferences = Conference::with(['location', 'address'])->get();
