@@ -9,11 +9,13 @@ use Illuminate\Http\Request;
 class GalleryImageController extends Controller
 {
     private $fillableAttributes = ['image', 'gallery_id'];
+
     public function getGalleryImages()
     {
         $images = GalleryImage::with('gallery')->get();
         return response()->json($images);
     }
+
     public function createGalleryImage(Request $request)
     {
         $galleryImage = new GalleryImage();
@@ -24,6 +26,7 @@ class GalleryImageController extends Controller
 
         return response()->json($galleryImage);
     }
+
     public function getGalleryImageById($id)
     {
         $galleryImage = GalleryImage::with('gallery')->find($id);
@@ -34,6 +37,7 @@ class GalleryImageController extends Controller
 
         return response()->json($galleryImage);
     }
+
     public function updateGalleryImage(Request $request, $id)
     {
         $galleryImage = GalleryImage::find($id);
@@ -52,6 +56,7 @@ class GalleryImageController extends Controller
 
         return response()->json($galleryImage);
     }
+
     public function deleteGalleryImage($id)
     {
         $galleryImage = GalleryImage::find($id);

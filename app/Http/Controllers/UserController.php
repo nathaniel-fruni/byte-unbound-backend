@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     private $fillableAttributes = ['first_name', 'last_name', 'email', 'password', 'role', 'remember_token'];
+
     public function getUsers()
     {
         $users = User::all();

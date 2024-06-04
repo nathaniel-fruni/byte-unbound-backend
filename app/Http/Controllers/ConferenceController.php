@@ -9,11 +9,13 @@ use Illuminate\Http\Request;
 class ConferenceController extends Controller
 {
     private $fillableAttributes = ['title', 'short_description', 'long_description', 'info1', 'info2', 'start_date', 'end_date', 'registration_deadline', 'contact_email', 'location_id', 'address_id'];
+
     public function getConferences()
     {
         $conferences = Conference::with(['location', 'address'])->get();
         return response()->json($conferences);
     }
+
     public function createConference(Request $request)
     {
         $conference = new Conference();
@@ -24,6 +26,7 @@ class ConferenceController extends Controller
 
         return response()->json($conference);
     }
+
     public function getConferenceById($id)
     {
         $conference = Conference::with(['location', 'address'])->find($id);
@@ -34,6 +37,7 @@ class ConferenceController extends Controller
 
         return response()->json($conference);
     }
+
     public function updateConference(Request $request, $id)
     {
         $conference = Conference::find($id);
@@ -41,8 +45,6 @@ class ConferenceController extends Controller
         if (!$conference) {
             return response()->json(['message' => 'Conference not found'], 404);
         }
-
-
 
         foreach ($this->fillableAttributes as $attribute) {
             if ($request->has($attribute)) {
@@ -54,6 +56,7 @@ class ConferenceController extends Controller
 
         return response()->json($conference);
     }
+
     public function deleteConference($id)
     {
         $conference = Conference::find($id);
@@ -66,7 +69,5 @@ class ConferenceController extends Controller
 
         return response()->json(['message' => 'Conference deleted successfully']);
     }
-
-
 }
 
