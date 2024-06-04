@@ -14,30 +14,29 @@ use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ConferenceController;
-use App\Http\Controllers\GalleryImage\Controller;
-use Illuminate\Http\Request;
+use App\Http\Controllers\GalleryImageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/get-speakers',[SpeakerController::class,'getSpeakers']);
-Route::get('/get-speaker/{id}', [SpeakerController::class, 'getSpeaker']);
+Route::get('/get-speaker-byId/{id}', [SpeakerController::class, 'getSpeakerById']);
 Route::post('/create-speaker', [SpeakerController::class, 'createSpeaker']);
 Route::patch('/update-speaker/{id}', [SpeakerController::class, 'updateSpeaker']);
 Route::delete('/delete-speaker/{id}', [SpeakerController::class, 'deleteSpeaker']);
 
 Route::get('/get-conferences',[ConferenceController::class,'getConferences']);
-Route::get('/get-conference/{id}',[ConferenceController::class,'getConference']);
+Route::get('/get-conference-byId/{id}',[ConferenceController::class,'getConferenceById']);
 Route::post('/create-conference',[ConferenceController::class,'createConference']);
 Route::patch('/update-conference/{id}', [ConferenceController::class, 'updateConference']);
 Route::delete('/delete-conference/{id}', [ConferenceController::class, 'deleteConference']);
 
 Route::get('/get-gallery-images',[GalleryImageController::class,'getGalleryImages']);
-Route::get('/get-gallery-image/{id}', [GalleryImageController::class, 'getGalleryImage']);
+Route::get('/get-gallery-image-byId/{id}', [GalleryImageController::class, 'getGalleryImageById']);
 Route::post('/create-gallery-image', [GalleryImageController::class, 'createGalleryImage']);
 Route::patch('/update-gallery-image/{id}', [GalleryImageController::class, 'updateGalleryImage']);
 Route::delete('/delete-gallery-image/{id}', [GalleryImageController::class, 'deleteGalleryImage']);
 
 Route::get('/get-users',[UserController::class,'getUsers']);
-Route::get('/get-user/{id}', [UserController::class, 'getUser']);
+Route::get('/get-user-byId/{id}', [UserController::class, 'getUserById']);
 Route::post('/create-user', [UserController::class, 'createUser']);
 Route::patch('/update-user/{id}', [UserController::class, 'updateUser']);
 Route::delete('/delete-user/{id}', [UserController::class, 'deleteUser']);

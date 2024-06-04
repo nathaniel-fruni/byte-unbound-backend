@@ -31,7 +31,7 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function getUser($id)
+    public function getUserById($id)
     {
         $user = User::find($id);
 

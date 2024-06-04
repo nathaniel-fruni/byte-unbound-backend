@@ -23,7 +23,7 @@ class SpeakerController extends Controller
         return response()->json($speaker);
     }
 
-    public function getSpeaker($id) {
+    public function getSpeakerById($id) {
         $speaker = Speaker::with('partner')->find($id);
         if (!$speaker) {
             return response()->json(['message' => 'Speaker not found'], 404);

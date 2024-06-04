@@ -24,7 +24,7 @@ class ConferenceController extends Controller
 
         return response()->json($conference);
     }
-    public function getConference($id)
+    public function getConferenceById($id)
     {
         $conference = Conference::with(['location', 'address'])->find($id);
 
