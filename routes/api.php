@@ -25,6 +25,7 @@ Route::delete('/delete-speaker/{id}', [SpeakerController::class, 'deleteSpeaker'
 
 Route::get('/get-conferences',[ConferenceController::class,'getConferences']);
 Route::get('/get-conference-byId/{id}',[ConferenceController::class,'getConferenceById']);
+Route::get('/get-newestConference',[ConferenceController::class,'getNewestConference']);
 Route::post('/create-conference',[ConferenceController::class,'createConference']);
 Route::patch('/update-conference/{id}', [ConferenceController::class, 'updateConference']);
 Route::delete('/delete-conference/{id}', [ConferenceController::class, 'deleteConference']);

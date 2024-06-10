@@ -6,13 +6,14 @@ use App\Models\TimeSlot;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Ramsey\Uuid\Type\Time;
 
 class TimeSlotController extends Controller
 {
     private $fillable_attributes = ["stage_id", "talk_id", "start_time", "end_time"];
 
     public function getTimeSlots(): JsonResponse {
-        $timeSlots = TimeSlot::all();
+        $timeSlots = TimeSlot::with(['stage', 'talk.speaker.partner'])->get();
         return response()->json($timeSlots);
     }
 

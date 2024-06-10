@@ -38,6 +38,17 @@ class ConferenceController extends Controller
         return response()->json($conference);
     }
 
+    public function getNewestConference()
+    {
+        $conference = Conference::with(['location', 'address'])->orderBy('id', 'desc')->first();
+
+        if (!$conference) {
+            return response()->json(['message' => 'Conference not found'], 404);
+        }
+
+        return response()->json($conference);
+    }
+
     public function updateConference(Request $request, $id)
     {
         $conference = Conference::find($id);
