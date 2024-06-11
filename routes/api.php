@@ -108,3 +108,12 @@ Route::get('/get-sponsor-byId/{id}', [SponsorController::class, 'getSponsorById'
 Route::post('create-sponsor', [SponsorController::class, 'createSponsor']);
 Route::patch('/update-sponsor/{id}', [SponsorController::class, 'updateSponsor']);
 Route::delete('/delete-sponsor/{id}', [SponsorController::class, 'deleteSponsor']);
+
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('register', [AuthController::class, 'register']);
+
+    Route::group(['middleware' => 'auth:sanctum'], function() {
+        Route::get('logout', [AuthController::class, 'logout']);
+        });
+});

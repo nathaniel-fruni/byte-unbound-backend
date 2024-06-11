@@ -3,13 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Foundation\Auth\User as AuthenticatableBase;
 
-class User extends Model
+class User extends  AuthenticatableBase implements AuthenticatableContract
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable, Authenticatable;
 
     protected $table = 'users';
 
@@ -23,5 +27,5 @@ class User extends Model
     public function talks(): HasManyThrough
     {
         return $this->hasManyThrough(Talk::class, Registration::class);
-    }
+        }
 }
