@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrganizerController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\TestimonalController;
@@ -31,7 +32,6 @@ Route::patch('/update-conference/{id}', [ConferenceController::class, 'updateCon
 Route::delete('/delete-conference/{id}', [ConferenceController::class, 'deleteConference']);
 
 Route::get('/get-gallery-images',[GalleryImageController::class,'getGalleryImages']);
-Route::get('/get-gallery-images-byGalleryId/{id}',[GalleryImageController::class,'getGalleryImagesByGalleryId']);
 Route::get('/get-gallery-image-byId/{id}', [GalleryImageController::class, 'getGalleryImageById']);
 Route::post('/create-gallery-image', [GalleryImageController::class, 'createGalleryImage']);
 Route::patch('/update-gallery-image/{id}', [GalleryImageController::class, 'updateGalleryImage']);
