@@ -16,6 +16,12 @@ class GalleryImageController extends Controller
         return response()->json($images);
     }
 
+    public function getGalleryImagesByGalleryId($galleryId)
+    {
+        $images = GalleryImage::where('gallery_id', $galleryId)->get();
+        return response()->json($images);
+        }
+
     public function createGalleryImage(Request $request)
     {
         $galleryImage = new GalleryImage();
