@@ -9,12 +9,14 @@ use Illuminate\Routing\Controller;
 
 class LocationController extends Controller
 {
-    public function getLocations(): JsonResponse {
+    public function getLocations(): JsonResponse
+    {
         $locations = Location::all();
         return response()->json($locations);
     }
 
-    public function getLocationById(int $id): JsonResponse {
+    public function getLocationById(int $id): JsonResponse
+    {
         $location = Location::find($id);
         if (!$location) {
             return response()->json(['message' =>'Location not found'], 404);
@@ -23,7 +25,8 @@ class LocationController extends Controller
         return response()->json($location);
     }
 
-    public function createLocation(Request $request): JsonResponse {
+    public function createLocation(Request $request): JsonResponse
+    {
         $location = new Location();
 
         $location->location = $request->input("location");
@@ -32,7 +35,8 @@ class LocationController extends Controller
         return response()->json($location);
     }
 
-    public function updateLocation(Request $request, int $id) {
+    public function updateLocation(Request $request, int $id): JsonResponse
+    {
         $location = Location::find($id);
 
         if (!$location) {
@@ -47,7 +51,8 @@ class LocationController extends Controller
         return response()->json($location);
     }
 
-    public function deleteLocation($id) {
+    public function deleteLocation($id): JsonResponse
+    {
         $location = Location::find($id);
         if (!$location) {
             return response()->json(['message' => 'Location not found'], 404);

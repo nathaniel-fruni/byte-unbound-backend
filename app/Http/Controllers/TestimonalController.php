@@ -11,12 +11,20 @@ class TestimonalController extends Controller
 {
     private $fillable_attributes = ['name', 'image', 'testimonal_text', 'conference_id'];
 
-    public function getTestimonals(): JsonResponse {
+    public function getTestimonals(): JsonResponse
+    {
         $testimonals = Testimonal::all();
         return response()->json($testimonals);
     }
 
-    public function getTestimonalById(int $id): JsonResponse {
+    public function getTestimonalsByConference($conference_id): JsonResponse
+    {
+        $testimonals = Testimonal::where('conference_id', $conference_id)->get();
+        return response()->json($testimonals);
+    }
+
+    public function getTestimonalById(int $id): JsonResponse
+    {
         $testimonal = Testimonal::find($id);
         if (!$testimonal) {
             return response()->json(['message' =>'Testimonal not found'], 404);
@@ -25,7 +33,8 @@ class TestimonalController extends Controller
         return response()->json($testimonal);
     }
 
-    public function createTestimonal(Request $request): JsonResponse {
+    public function createTestimonal(Request $request): JsonResponse
+    {
         $testimonal = new Testimonal();
 
         foreach ($this->fillable_attributes as $attribute) {
@@ -36,7 +45,8 @@ class TestimonalController extends Controller
         return response()->json($testimonal);
     }
 
-    public function updateTestimonal(Request $request, int $id) {
+    public function updateTestimonal(Request $request, int $id): JsonResponse
+    {
         $testimonal = Testimonal::find($id);
 
         if (!$testimonal) {
@@ -53,7 +63,8 @@ class TestimonalController extends Controller
         return response()->json($testimonal);
     }
 
-    public function deleteTestimonal($id) {
+    public function deleteTestimonal($id): JsonResponse
+    {
         $testimonal = Testimonal::find($id);
         if (!$testimonal) {
             return response()->json(['message' => 'Testimonal not found'], 404);

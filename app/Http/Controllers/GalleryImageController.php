@@ -3,26 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\GalleryImage;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 
 class GalleryImageController extends Controller
 {
-    private $fillableAttributes = ['image', 'gallery_id'];
+    private array $fillableAttributes = ['image', 'gallery_id'];
 
-    public function getGalleryImages()
+    public function getGalleryImages(): JsonResponse
     {
         $images = GalleryImage::with('gallery')->get();
         return response()->json($images);
     }
 
-    public function getGalleryImagesByGalleryId($galleryId)
+    public function getGalleryImagesByGalleryId($galleryId): JsonResponse
     {
         $images = GalleryImage::where('gallery_id', $galleryId)->get();
         return response()->json($images);
-        }
+    }
 
-    public function createGalleryImage(Request $request)
+    public function createGalleryImage(Request $request): JsonResponse
     {
         $galleryImage = new GalleryImage();
         foreach ($this->fillableAttributes as $attribute) {
@@ -33,7 +34,7 @@ class GalleryImageController extends Controller
         return response()->json($galleryImage);
     }
 
-    public function getGalleryImageById($id)
+    public function getGalleryImageById($id): JsonResponse
     {
         $galleryImage = GalleryImage::with('gallery')->find($id);
 
@@ -44,7 +45,7 @@ class GalleryImageController extends Controller
         return response()->json($galleryImage);
     }
 
-    public function updateGalleryImage(Request $request, $id)
+    public function updateGalleryImage(Request $request, $id): JsonResponse
     {
         $galleryImage = GalleryImage::find($id);
 
@@ -63,7 +64,7 @@ class GalleryImageController extends Controller
         return response()->json($galleryImage);
     }
 
-    public function deleteGalleryImage($id)
+    public function deleteGalleryImage($id): JsonResponse
     {
         $galleryImage = GalleryImage::find($id);
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Conference;
 use App\Models\Talk;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -9,14 +10,20 @@ use Illuminate\Routing\Controller;
 
 class TalkController extends Controller
 {
-    private $fillable_attributes = ["title", "description", "capacity", "speaker_id"];
+    private array $fillable_attributes = ["title", "description", "capacity", "speaker_id"];
 
-    public function getTalks(): JsonResponse {
-        $talks = Talk::all();
+    public function getTalks(): JsonResponse
+    {
+        $newestConference = Conference::orderBy('start_date', 'desc')->first();
+        $talks = Talk::whereHas('timeSlots.stage.conferences', function ($query) use ($newestConference) {
+            $query->where('conference_id', $newestConference->id);
+        })->get();
+
         return response()->json($talks);
     }
 
-    public function getTalkById(int $id): JsonResponse {
+    public function getTalkById(int $id): JsonResponse
+    {
         $talk = Talk::find($id);
         if (!$talk) {
             return response()->json(['message' =>'Talk not found'], 404);
@@ -25,7 +32,8 @@ class TalkController extends Controller
         return response()->json($talk);
     }
 
-    public function createTalk(Request $request): JsonResponse {
+    public function createTalk(Request $request): JsonResponse
+    {
         $talk = new Talk();
 
         foreach ($this->fillable_attributes as $attribute) {
@@ -36,7 +44,8 @@ class TalkController extends Controller
         return response()->json($talk);
     }
 
-    public function updateTalk(Request $request, int $id) {
+    public function updateTalk(Request $request, int $id):JsonResponse
+    {
         $talk = Talk::find($id);
 
         if (!$talk) {
@@ -53,7 +62,8 @@ class TalkController extends Controller
         return response()->json($talk);
     }
 
-    public function deleteTalk($id) {
+    public function deleteTalk($id): JsonResponse
+    {
         $talk = Talk::find($id);
         if (!$talk) {
             return response()->json(['message' => 'Talk not found'], 404);

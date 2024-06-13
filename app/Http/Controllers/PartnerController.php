@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Conference;
 use App\Models\Partner;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -11,12 +12,18 @@ class PartnerController extends Controller
 {
     private $fillable_attributes = ["name", "logo", "website"];
 
-    public function getPartners(): JsonResponse {
-        $partners = Partner::all();
+    public function getPartners(): JsonResponse
+    {
+        $newestConference = Conference::orderBy('start_date', 'desc')->first();
+        $partners = Partner::whereHas('conference', function ($query) use ($newestConference) {
+            $query->where('conference_id', $newestConference->id);
+        })->get();
+
         return response()->json($partners);
     }
 
-    public function getPartnerById(int $id): JsonResponse {
+    public function getPartnerById(int $id): JsonResponse
+    {
         $partner = Partner::find($id);
         if (!$partner) {
             return response()->json(['message' =>'Partner not found'], 404);
@@ -25,7 +32,8 @@ class PartnerController extends Controller
         return response()->json($partner);
     }
 
-    public function createPartner(Request $request): JsonResponse {
+    public function createPartner(Request $request): JsonResponse
+    {
         $partner = new Partner();
 
         foreach ($this->fillable_attributes as $attribute) {
@@ -36,7 +44,8 @@ class PartnerController extends Controller
         return response()->json($partner);
     }
 
-    public function updatePartner(Request $request, int $id) {
+    public function updatePartner(Request $request, int $id): JsonResponse
+    {
         $partner = Partner::find($id);
 
         if (!$partner) {
@@ -53,7 +62,8 @@ class PartnerController extends Controller
         return response()->json($partner);
     }
 
-    public function deletePartner($id) {
+    public function deletePartner($id):JsonResponse
+    {
         $partner = Partner::find($id);
         if (!$partner) {
             return response()->json(['message' => 'Partner not found'], 404);

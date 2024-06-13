@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Conference;
 use App\Models\TimeSlot;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -10,14 +11,21 @@ use Ramsey\Uuid\Type\Time;
 
 class TimeSlotController extends Controller
 {
-    private $fillable_attributes = ["stage_id", "talk_id", "start_time", "end_time"];
+    private array $fillable_attributes = ["stage_id", "talk_id", "start_time", "end_time"];
 
-    public function getTimeSlots(): JsonResponse {
-        $timeSlots = TimeSlot::with(['stage', 'talk.speaker.partner'])->get();
+    public function getTimeSlots(): JsonResponse
+    {
+        $newestConference = Conference::orderBy('start_date', 'desc')->first();
+        $timeSlots = TimeSlot::with('stage', 'talk.speaker.partner')
+            ->whereHas('stage.conferences', function ($query) use ($newestConference) {
+                $query->where('id', $newestConference->id);
+            })->get();
+
         return response()->json($timeSlots);
     }
 
-    public function getTimeSlotById(int $id): JsonResponse {
+    public function getTimeSlotById(int $id): JsonResponse
+    {
         $timeSlot = TimeSlot::find($id);
         if (!$timeSlot) {
             return response()->json(['message' =>'Time slot not found'], 404);
@@ -26,7 +34,8 @@ class TimeSlotController extends Controller
         return response()->json($timeSlot);
     }
 
-    public function createTimeSlot(Request $request): JsonResponse {
+    public function createTimeSlot(Request $request): JsonResponse
+    {
         $timeSlot = new TimeSlot();
 
 
@@ -38,7 +47,8 @@ class TimeSlotController extends Controller
         return response()->json($timeSlot);
     }
 
-    public function updateTimeSlot(Request $request, int $id) {
+    public function updateTimeSlot(Request $request, int $id): JsonResponse
+    {
         $timeSlot = TimeSlot::find($id);
 
         if (!$timeSlot) {
@@ -55,7 +65,8 @@ class TimeSlotController extends Controller
         return response()->json($timeSlot);
     }
 
-    public function deleteTimeSlot($id) {
+    public function deleteTimeSlot($id): JsonResponse
+    {
         $timeSlot = TimeSlot::find($id);
         if (!$timeSlot) {
             return response()->json(['message' => 'Time slot not found'], 404);

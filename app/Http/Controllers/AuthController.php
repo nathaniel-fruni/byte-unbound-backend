@@ -29,12 +29,8 @@ class AuthController extends Controller
         ]);
 
         if ($user->save()) {
-            $tokenResult = $user->createToken('Personal Access Token');
-            $token = $tokenResult->plainTextToken;
-
             return response()->json([
-                'message' => 'Successfully created user!',
-                'accessToken' => $token,
+                'message' => 'Admin pridaný',
             ], 201);
         } else {
             return response()->json(['error' => 'Poskytnite potrebné údaje']);
@@ -74,7 +70,7 @@ class AuthController extends Controller
         $request->user()->tokens()->delete();
 
         $response = response()->json([
-            'message' => 'Successfully logged out'
+            'message' => 'Úspešne odhlásený'
         ]);
         $response->cookie('access_token', '', 0, null, null, false, true);
 

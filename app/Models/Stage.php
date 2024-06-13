@@ -16,7 +16,7 @@ class Stage extends Model
 
     protected $fillable = ["name"];
 
-    public function conference(): BelongsToMany
+    public function conferences(): BelongsToMany
     {
         return $this->belongsToMany(Conference::class);
     }

@@ -3,20 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Conference;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 
 class ConferenceController extends Controller
 {
-    private $fillableAttributes = ['title', 'short_description', 'long_description', 'info1', 'info2', 'start_date', 'end_date', 'registration_deadline', 'contact_email', 'location_id', 'address_id'];
+    private array $fillableAttributes = ['title', 'short_description', 'long_description', 'info1', 'info2', 'start_date', 'end_date', 'registration_deadline', 'contact_email', 'location_id', 'address_id'];
 
-    public function getConferences()
+    public function getConferences(): JsonResponse
     {
         $conferences = Conference::with(['location', 'address'])->get();
         return response()->json($conferences);
     }
 
-    public function createConference(Request $request)
+    public function createConference(Request $request): JsonResponse
     {
         $conference = new Conference();
         foreach ($this->fillableAttributes as $attribute) {
@@ -27,7 +28,7 @@ class ConferenceController extends Controller
         return response()->json($conference);
     }
 
-    public function getConferenceById($id)
+    public function getConferenceById($id): JsonResponse
     {
         $conference = Conference::with(['location', 'address'])->find($id);
 
@@ -38,7 +39,7 @@ class ConferenceController extends Controller
         return response()->json($conference);
     }
 
-    public function getNewestConference()
+    public function getNewestConference(): JsonResponse
     {
         $conference = Conference::with(['location', 'address'])->orderBy('id', 'desc')->first();
 
@@ -49,7 +50,7 @@ class ConferenceController extends Controller
         return response()->json($conference);
     }
 
-    public function updateConference(Request $request, $id)
+    public function updateConference(Request $request, $id): JsonResponse
     {
         $conference = Conference::find($id);
 
@@ -68,7 +69,7 @@ class ConferenceController extends Controller
         return response()->json($conference);
     }
 
-    public function deleteConference($id)
+    public function deleteConference($id): JsonResponse
     {
         $conference = Conference::find($id);
 

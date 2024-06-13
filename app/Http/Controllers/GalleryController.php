@@ -9,14 +9,16 @@ use Illuminate\Routing\Controller;
 
 class GalleryController extends Controller
 {
-    private $fillable_attributes = ["name", "conference_id"];
+    private array $fillable_attributes = ["name", "conference_id"];
 
-    public function getGalleries(): JsonResponse {
+    public function getGalleries(): JsonResponse
+    {
         $galleries = Gallery::all();
         return response()->json($galleries);
     }
 
-    public function getGalleryById(int $id): JsonResponse {
+    public function getGalleryById(int $id): JsonResponse
+    {
         $gallery = Gallery::find($id);
         if (!$gallery) {
             return response()->json(['message' =>'Gallery not found'], 404);
@@ -25,7 +27,8 @@ class GalleryController extends Controller
         return response()->json($gallery);
     }
 
-    public function createGallery(Request $request): JsonResponse {
+    public function createGallery(Request $request): JsonResponse
+    {
         $gallery = new Gallery();
 
         foreach ($this->fillable_attributes as $attribute) {
@@ -36,7 +39,8 @@ class GalleryController extends Controller
         return response()->json($gallery);
     }
 
-    public function updateGallery(Request $request, int $id) {
+    public function updateGallery(Request $request, int $id): JsonResponse
+    {
         $gallery = Gallery::find($id);
 
         if (!$gallery) {
@@ -53,7 +57,8 @@ class GalleryController extends Controller
         return response()->json($gallery);
     }
 
-    public function deleteGallery($id) {
+    public function deleteGallery($id): JsonResponse
+    {
         $gallery = Gallery::find($id);
         if (!$gallery) {
             return response()->json(['message' => 'Gallery not found'], 404);

@@ -10,14 +10,16 @@ use Illuminate\Routing\Controller;
 
 class RegistrationController extends Controller
 {
-    private $fillable_attributes = ["user_id", "talk_id", "registered_at", "attended"];
+    private array $fillable_attributes = ["user_id", "talk_id", "registered_at", "attended"];
 
-    public function getRegistrations(): JsonResponse {
+    public function getRegistrations(): JsonResponse
+    {
         $registrations = Registration::all();
         return response()->json($registrations);
     }
 
-    public function getRegistrationById(int $id): JsonResponse {
+    public function getRegistrationById(int $id): JsonResponse
+    {
         $registration = Registration::find($id);
         if (!$registration) {
             return response()->json(['message' =>'Registration not found'], 404);
@@ -26,7 +28,8 @@ class RegistrationController extends Controller
         return response()->json($registration);
     }
 
-    public function createRegistration(Request $request): JsonResponse {
+    public function createRegistration(Request $request): JsonResponse
+    {
         $registration = new Registration();
 
         foreach ($this->fillable_attributes as $attribute) {
@@ -37,7 +40,8 @@ class RegistrationController extends Controller
         return response()->json($registration);
     }
 
-    public function updateRegistration(Request $request, int $id) {
+    public function updateRegistration(Request $request, int $id): JsonResponse
+    {
         $registration = Registration::find($id);
 
         if (!$registration) {
@@ -54,7 +58,8 @@ class RegistrationController extends Controller
         return response()->json($registration);
     }
 
-    public function deleteRegistration($id) {
+    public function deleteRegistration($id): JsonResponse
+    {
         $registration = Registration::find($id);
         if (!$registration) {
             return response()->json(['message' => 'Registration not found'], 404);

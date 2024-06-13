@@ -26,11 +26,11 @@ class AddGalleryImages extends Seeder
                 'gallery_id' => 1,
             ],
             [
-                'image' => 'gallery23_01.jpeg',
+                'image' => 'gallery23_01.jpg',
                 'gallery_id' => 2,
             ],
             [
-                'image' => 'gallery23_02.jpeg',
+                'image' => 'gallery23_02.jpg',
                 'gallery_id' => 2,
             ],
             [
