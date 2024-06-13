@@ -33,6 +33,7 @@ Route::delete('/delete-conference/{id}', [ConferenceController::class, 'deleteCo
 
 Route::get('/get-gallery-images',[GalleryImageController::class,'getGalleryImages']);
 Route::get('/get-gallery-image-byId/{id}', [GalleryImageController::class, 'getGalleryImageById']);
+Route::get('/get-gallery-images-byGalleryId/{id}',[GalleryImageController::class,'getGalleryImagesByGalleryId']);
 Route::post('/create-gallery-image', [GalleryImageController::class, 'createGalleryImage']);
 Route::patch('/update-gallery-image/{id}', [GalleryImageController::class, 'updateGalleryImage']);
 Route::delete('/delete-gallery-image/{id}', [GalleryImageController::class, 'deleteGalleryImage']);
