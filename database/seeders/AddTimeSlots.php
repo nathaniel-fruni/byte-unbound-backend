@@ -74,6 +74,30 @@ class AddTimeSlots extends Seeder
                 'start_time' => Carbon::create(2024, 6, 25, 11, 45, 0),
                 'end_time' => Carbon::create(2024, 6, 28, 12, 30, 0),
             ],
+            [
+                'stage_id' => 1,
+                'talk_id' => 11,
+                'start_time' => Carbon::create(2022, 6, 25, 9, 0, 0),
+                'end_time' => Carbon::create(2022, 6, 28, 9, 45, 0),
+            ],
+            [
+                'stage_id' => 2,
+                'talk_id' => 12,
+                'start_time' => Carbon::create(2022, 6, 25, 9, 0, 0),
+                'end_time' => Carbon::create(2022, 6, 28, 9, 45, 0),
+            ],
+            [
+                'stage_id' => 1,
+                'talk_id' => 13,
+                'start_time' => Carbon::create(2023, 6, 25, 9, 0, 0),
+                'end_time' => Carbon::create(2023, 6, 28, 9, 45, 0),
+            ],
+            [
+                'stage_id' => 2,
+                'talk_id' => 14,
+                'start_time' => Carbon::create(2023, 6, 25, 9, 0, 0),
+                'end_time' => Carbon::create(2023, 6, 28, 9, 45, 0),
+            ],
         ];
 
         foreach ($timeSlots as $timesSlotData) {

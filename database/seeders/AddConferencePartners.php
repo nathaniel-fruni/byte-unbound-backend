@@ -14,6 +14,22 @@ class AddConferencePartners extends Seeder
     {
         $keyPairs = [
             [
+                'conference_id' => 1,
+                'partner_id' => 2,
+            ],
+            [
+                'conference_id' => 1,
+                'partner_id' => 4,
+            ],
+            [
+                'conference_id' => 2,
+                'partner_id' => 2,
+            ],
+            [
+                'conference_id' => 2,
+                'partner_id' => 4,
+            ],
+            [
                 'conference_id' => 3,
                 'partner_id' => 1,
             ],

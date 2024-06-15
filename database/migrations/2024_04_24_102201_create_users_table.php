@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string("email", 100);
             $table->text("password")->nullable();
             $table->string("role", 10);
-            $table->string("remember_token", 255)->nullable();
+            $table->string("verification_code", 255)->nullable();
             $table->timestamps();
         });
     }

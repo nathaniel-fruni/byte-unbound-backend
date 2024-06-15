@@ -4,20 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Conference;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 
-
 class UserController extends Controller
 {
-    private $fillableAttributes = ['first_name', 'last_name', 'email', 'password', 'role', 'remember_token'];
+    private $fillableAttributes = ['first_name', 'last_name', 'email', 'password', 'role', 'verification_code'];
 
     public function getUsers($conference_id): JsonResponse
     {
-        $users = User::whereHas('registration.talk.timeSlots.stage.conferences', function ($query) use ($conference_id) {
-            $query->where('conference_id', $conference_id);
-        })->get();
+        $conference = Conference::findOrFail($conference_id);
+        $conferenceYear = Carbon::parse($conference->start_date)->year;
+
+        $users = User::whereHas('registration', function ($query) use ($conferenceYear) {
+            $query->whereYear('registered_at', $conferenceYear);
+        })->with(['registration' => function ($query) use ($conferenceYear) {
+            $query->whereYear('registered_at', $conferenceYear);
+            $query->with('talk');
+        }])->get();
 
         return response()->json($users);
     }

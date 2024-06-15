@@ -30,10 +30,10 @@ class AuthController extends Controller
 
         if ($user->save()) {
             return response()->json([
-                'message' => 'Admin pridaný',
+                'message' => 'Admin registered successfully',
             ], 201);
         } else {
-            return response()->json(['error' => 'Poskytnite potrebné údaje']);
+            return response()->json(['error' => 'Admin registration unsuccessful']);
         }
     }
 
@@ -70,7 +70,7 @@ class AuthController extends Controller
         $request->user()->tokens()->delete();
 
         $response = response()->json([
-            'message' => 'Úspešne odhlásený'
+            'message' => 'Logged out successfully'
         ]);
         $response->cookie('access_token', '', 0, null, null, false, true);
 

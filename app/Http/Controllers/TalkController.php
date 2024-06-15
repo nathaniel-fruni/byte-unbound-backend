@@ -10,7 +10,7 @@ use Illuminate\Routing\Controller;
 
 class TalkController extends Controller
 {
-    private array $fillable_attributes = ["title", "description", "capacity", "speaker_id"];
+    private array $fillable_attributes = ["title", "description", "capacity", "remaining_capacity", "speaker_id"];
 
     public function getTalks(): JsonResponse
     {

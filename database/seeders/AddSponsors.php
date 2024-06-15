@@ -14,6 +14,10 @@ class AddSponsors extends Seeder
     {
         $sponsors = [
             [
+                'name' => 'GymBeam',
+                'logo' => 'gymbeam_logo.png'
+            ],
+            [
                 'name' => 'Ataccama',
                 'logo' => 'jetbrains_logo.png'
             ],

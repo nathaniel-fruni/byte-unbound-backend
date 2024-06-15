@@ -19,7 +19,7 @@ class AddUsers extends Seeder
                 'email' => 'nathaniel.fruni@student.ukf.sk',
                 'password' => bcrypt('secret'),
                 'role' => 'admin',
-                'remember_token' => null,
+                'verification_code' => null,
             ],
             [
                 'first_name' => 'Samuel',
@@ -27,7 +27,7 @@ class AddUsers extends Seeder
                 'email' => 'samuel.kascak@student.ukf.sk',
                 'password' => bcrypt('secret'),
                 'role' => 'admin',
-                'remember_token' => null,
+                'verification_code' => null,
             ],
             [
                 'first_name' => 'Lukáš',
@@ -35,7 +35,7 @@ class AddUsers extends Seeder
                 'email' => 'sykora@ukf.sk',
                 'password' => null,
                 'role' => 'attendee',
-                'remember_token' => null,
+                'verification_code' => null,
             ],
             [
                 'first_name' => 'Katarína',
@@ -43,7 +43,7 @@ class AddUsers extends Seeder
                 'email' => 'vargova@ukf.sk',
                 'password' => null,
                 'role' => 'attendee',
-                'remember_token' => null,
+                'verification_code' => null,
             ],
             [
                 'first_name' => 'Peter',
@@ -51,7 +51,7 @@ class AddUsers extends Seeder
                 'email' => 'horvath@ukf.sk',
                 'password' => null,
                 'role' => 'attendee',
-                'remember_token' => null,
+                'verification_code' => null,
             ],
             [
                 'first_name' => 'Jana',
@@ -59,7 +59,7 @@ class AddUsers extends Seeder
                 'email' => 'kovacova@ukf.sk',
                 'password' => null,
                 'role' => 'attendee',
-                'remember_token' => null,
+                'verification_code' => null,
             ],
             [
                 'first_name' => 'Martin',
@@ -67,7 +67,7 @@ class AddUsers extends Seeder
                 'email' => 'novak@ukf.sk',
                 'password' => null,
                 'role' => 'attendee',
-                'remember_token' => null,
+                'verification_code' => null,
             ]
         ];
 
@@ -78,7 +78,7 @@ class AddUsers extends Seeder
             $user->email = $userData['email'];
             $user->password = $userData['password'];
             $user->role = $userData['role'];
-            $user->remember_token =$userData['remember_token'];
+            $user->verification_code =$userData['verification_code'];
             $user->save();
         }
     }

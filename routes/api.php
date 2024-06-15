@@ -57,9 +57,6 @@ Route::delete('/delete-organizer/{id}', [OrganizerController::class, 'deleteOrga
 
 Route::get('/get-stages', [StageController::class, 'getStages']);
 Route::get('/get-stage-byId/{id}', [StageController::class, 'getStageById']);
-Route::post('/create-stage', [StageController::class, 'createStage']);
-Route::patch('/update-stage/{id}', [StageController::class, 'updateStage']);
-Route::delete('/delete-stage/{id}', [StageController::class, 'deleteStage']);
 
 Route::get('/get-talks', [TalkController::class, 'getTalks']);
 Route::get('/get-talk-byId/{id}', [TalkController::class, 'getTalkById']);
@@ -105,7 +102,6 @@ Route::delete('/delete-registration/{id}', [RegistrationController::class, 'dele
 
 Route::get('/get-sponsors', [SponsorController::class, 'getSponsors']);
 Route::get('/get-sponsor-byId/{id}', [SponsorController::class, 'getSponsorById']);
-Route::post('/create-sponsor', [SponsorController::class, 'createSponsor']);
 Route::patch('/update-sponsor/{id}', [SponsorController::class, 'updateSponsor']);
 Route::delete('/delete-sponsor/{id}', [SponsorController::class, 'deleteSponsor']);
 
@@ -117,4 +113,8 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::post('/create-testimonal', [TestimonalController::class, 'createTestimonal']);
     Route::patch('/update-testimonal/{id}', [TestimonalController::class, 'updateTestimonal']);
     Route::delete('/delete-testimonal/{id}', [TestimonalController::class, 'deleteTestimonal']);
+    Route::delete('/delete-stage/{id}', [StageController::class, 'deleteStage']);
+    Route::post('/create-stage', [StageController::class, 'createStage']);
+    Route::patch('/update-stage/{id}', [StageController::class, 'updateStage']);
+    Route::post('/create-sponsor', [SponsorController::class, 'createSponsor']);
 });

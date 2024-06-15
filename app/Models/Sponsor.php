@@ -18,6 +18,6 @@ class Sponsor extends Model
 
     public function conference(): BelongsToMany
     {
-        return $this->belongsToMany(Conference::class);
+        return $this->belongsToMany(Conference::class, 'conference_sponsors');
     }
 }

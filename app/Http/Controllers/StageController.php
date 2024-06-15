@@ -32,13 +32,20 @@ class StageController extends Controller
 
     public function createStage(Request $request): JsonResponse
     {
-        $stage = new Stage();
+        $newestConference = Conference::orderBy('start_date', 'desc')->first();
+        if (!$newestConference) {
+            return response()->json(['message' => 'No conference found'], 404);
+        }
 
+        $stage = new Stage();
         $stage->name = $request->input("name");
         $stage->save();
 
+        $newestConference->stages()->attach($stage->id);
+
         return response()->json($stage);
     }
+
 
     public function updateStage(Request $request, int $id):JsonResponse
     {
@@ -62,8 +69,10 @@ class StageController extends Controller
         if (!$stage) {
             return response()->json(['message' => 'Stage not found'], 404);
         }
+        $stage->conferences()->detach();
         $stage->delete();
 
         return response()->json(['message' => 'Stage deleted successfully']);
     }
+
 }

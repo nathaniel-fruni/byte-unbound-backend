@@ -29,17 +29,17 @@ class Conference extends Model
 
     public function organizer(): BelongsToMany
     {
-        return $this->belongsToMany(Organizer::class);
+        return $this->belongsToMany(Organizer::class, 'conference_organizers');
     }
 
     public function partner(): BelongsToMany
     {
-        return $this->belongsToMany(Partner::class);
+        return $this->belongsToMany(Partner::class, 'conference_partners');
     }
 
     public function sponsor(): BelongsToMany
     {
-        return $this->belongsToMany(Sponsor::class);
+        return $this->belongsToMany(Sponsor::class, 'conference_sponsors');
     }
 
     public function testimonal(): HasMany
@@ -54,6 +54,6 @@ class Conference extends Model
 
     public function stages(): BelongsToMany
     {
-        return $this->belongsToMany(Stage::class);
+        return $this->belongsToMany(Stage::class, 'conference_stages');
     }
 }

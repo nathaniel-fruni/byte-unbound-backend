@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Conference;
 use App\Models\TimeSlot;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Ramsey\Uuid\Type\Time;
 
 class TimeSlotController extends Controller
 {
@@ -16,10 +16,14 @@ class TimeSlotController extends Controller
     public function getTimeSlots(): JsonResponse
     {
         $newestConference = Conference::orderBy('start_date', 'desc')->first();
+        $conferenceYear = Carbon::parse($newestConference->start_date)->year;
+
         $timeSlots = TimeSlot::with('stage', 'talk.speaker.partner')
             ->whereHas('stage.conferences', function ($query) use ($newestConference) {
                 $query->where('id', $newestConference->id);
-            })->get();
+            })
+            ->whereYear('start_time', $conferenceYear)
+            ->get();
 
         return response()->json($timeSlots);
     }

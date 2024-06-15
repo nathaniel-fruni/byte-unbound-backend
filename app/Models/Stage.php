@@ -18,7 +18,7 @@ class Stage extends Model
 
     public function conferences(): BelongsToMany
     {
-        return $this->belongsToMany(Conference::class);
+        return $this->belongsToMany(Conference::class, 'conference_stages');
     }
 
     public function timeSlots(): HasMany

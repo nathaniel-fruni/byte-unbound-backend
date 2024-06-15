@@ -14,7 +14,7 @@ class Talk extends Model
 
     protected $table = 'talks';
 
-    protected $fillable = ["title", "description", "capacity", "speaker_id"];
+    protected $fillable = ["title", "description", "capacity", "remaining_capacity", "speaker_id"];
 
     public function speaker(): BelongsTo
     {
@@ -30,4 +30,5 @@ class Talk extends Model
     {
         return $this->hasManyThrough(Stage::class, TimeSlot::class);
     }
+
 }

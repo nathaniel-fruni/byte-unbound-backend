@@ -31,11 +31,11 @@ class AddConferenceSponsors extends Seeder
             ],
             [
                 'conference_id' => 3,
-                'sponsor_id' => 1,
+                'sponsor_id' => 2,
             ],
             [
                 'conference_id' => 3,
-                'sponsor_id' => 2,
+                'sponsor_id' => 3,
             ],
         ];
 

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title', 255);
             $table->text('description');
             $table->integer('capacity');
+            $table->integer("remaining_capacity");
             $table->unsignedBigInteger('speaker_id');
             $table->timestamps();
         });

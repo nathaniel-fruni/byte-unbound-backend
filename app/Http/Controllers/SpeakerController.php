@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Conference;
 use App\Models\Speaker;
+use App\Models\TimeSlot;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
@@ -15,9 +17,18 @@ class SpeakerController extends Controller
     public function getSpeakers(): JsonResponse
     {
         $newestConference = Conference::orderBy('start_date', 'desc')->first();
+        $conferenceYear = Carbon::parse($newestConference->start_date)->year;
+
+        $timeSlotIds = TimeSlot::whereHas('stage.conferences', function ($query) use ($newestConference) {
+            $query->where('id', $newestConference->id);
+        })
+            ->whereYear('start_time', $conferenceYear)
+            ->pluck('id')
+            ->toArray();
+
         $speakers = Speaker::with('partner')
-            ->whereHas('talk.timeSlots.stage.conferences', function ($query) use ($newestConference) {
-                $query->where('id', $newestConference->id);
+            ->whereHas('talk.timeSlots', function ($query) use ($timeSlotIds) {
+                $query->whereIn('id', $timeSlotIds);
             })->get();
 
         return response()->json($speakers);

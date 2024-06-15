@@ -102,7 +102,43 @@ class AddSpeakers extends Seeder
                 'picture' => 'tuma.jpeg',
                 'linkedin' => 'https://www.linkedin.com/in/vojta-tůma-88176460/',
                 'partner_id' => 5
-            ]
+            ],
+            [
+                'first_name' => 'Test',
+                'last_name' => 'Prvý',
+                'short_description' => 'Zakladateľ a CEO GymBeam, od roku 2014 transformoval trh so športovou výživou na e-commerce platformu pôsobiacu v 16 krajinách s ročnými tržbami presahujúcimi 100 miliónov Eur.',
+                'long_description' => 'Ako nositeľ ocenení Forbes "30 pod 30" a YT Podnikateľ roka 2024, Dalibor presadzuje význam dátovo riadeného prístupu, inovačnej kultúry a tímovej spolupráce pri budovaní značky.',
+                'picture' => 'cicman.png',
+                'linkedin' => 'https://www.linkedin.com/in/dalibor-cicman/',
+                'partner_id' => 4
+            ],
+            [
+                'first_name' => 'Test',
+                'last_name' => 'Druhý',
+                'short_description' => 'Som programátor so záľubou v JavaScripte a jeho typovo stabilnejšom "mladšom bratovi" TypeScripte. Rád sa zahrám aj s inými jazykmi vrátane Pythonu, R-ka a PHP-čka. Počas mojej niekoľkoročnej kariéry som pôsobil už v spoločnostiach ako Nay alebo PwC.',
+                'long_description' => 'Aktuálne pôsobím ako technický riaditeľ spoločnosti Powerplay Studio, kde spríjemňujem život mojich programátorských kolegov mojimi "jednoduchými" zadaniami. Vo voľnom čase... programujem.',
+                'picture' => 'psenak.jpg',
+                'linkedin' => 'https://www.linkedin.com/in/peter-pšenák-3bb441159/',
+                'partner_id' => 2
+            ],
+            [
+                'first_name' => 'Test',
+                'last_name' => 'Tretí',
+                'short_description' => 'Zakladateľ a CEO GymBeam, od roku 2014 transformoval trh so športovou výživou na e-commerce platformu pôsobiacu v 16 krajinách s ročnými tržbami presahujúcimi 100 miliónov Eur.',
+                'long_description' => 'Ako nositeľ ocenení Forbes "30 pod 30" a YT Podnikateľ roka 2024, Dalibor presadzuje význam dátovo riadeného prístupu, inovačnej kultúry a tímovej spolupráce pri budovaní značky.',
+                'picture' => 'cicman.png',
+                'linkedin' => 'https://www.linkedin.com/in/dalibor-cicman/',
+                'partner_id' => 4
+            ],
+            [
+                'first_name' => 'Test',
+                'last_name' => 'Štvrtý',
+                'short_description' => 'Som programátor so záľubou v JavaScripte a jeho typovo stabilnejšom "mladšom bratovi" TypeScripte. Rád sa zahrám aj s inými jazykmi vrátane Pythonu, R-ka a PHP-čka. Počas mojej niekoľkoročnej kariéry som pôsobil už v spoločnostiach ako Nay alebo PwC.',
+                'long_description' => 'Aktuálne pôsobím ako technický riaditeľ spoločnosti Powerplay Studio, kde spríjemňujem život mojich programátorských kolegov mojimi "jednoduchými" zadaniami. Vo voľnom čase... programujem.',
+                'picture' => 'psenak.jpg',
+                'linkedin' => 'https://www.linkedin.com/in/peter-pšenák-3bb441159/',
+                'partner_id' => 2
+            ],
         ];
 
         foreach ($speakers as $speakerData) {
