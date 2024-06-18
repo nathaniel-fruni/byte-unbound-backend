@@ -13,14 +13,19 @@ use Illuminate\Http\Request;
 class SpeakerController extends Controller
 {
     private array $fillableAttributes = ['first_name', 'last_name', 'short_description', 'long_description', 'picture', 'linkedin', 'partner_id'];
+    private $newestConference;
 
-    public function getSpeakers(): JsonResponse
+    public function __construct()
     {
-        $newestConference = Conference::orderBy('start_date', 'desc')->first();
-        $conferenceYear = Carbon::parse($newestConference->start_date)->year;
+        $this->newestConference = Conference::orderBy('start_date', 'desc')->first();
+    }
 
-        $timeSlotIds = TimeSlot::whereHas('stage.conferences', function ($query) use ($newestConference) {
-            $query->where('id', $newestConference->id);
+    public function getSpeakersPublic(): JsonResponse
+    {
+        $conferenceYear = Carbon::parse($this->newestConference->start_date)->year;
+
+        $timeSlotIds = TimeSlot::whereHas('stage.conferences', function ($query) {
+            $query->where('id', $this->newestConference->id);
         })
             ->whereYear('start_time', $conferenceYear)
             ->pluck('id')
@@ -30,6 +35,27 @@ class SpeakerController extends Controller
             ->whereHas('talk.timeSlots', function ($query) use ($timeSlotIds) {
                 $query->whereIn('id', $timeSlotIds);
             })->get();
+
+        return response()->json($speakers);
+    }
+
+    public function getSpeakersAdmin(): JsonResponse
+    {
+        $conferenceYear = Carbon::parse($this->newestConference->start_date)->year;
+
+        $timeSlotIds = TimeSlot::whereHas('stage.conferences', function ($query) {
+            $query->where('id', $this->newestConference->id);
+        })
+            ->whereYear('start_time', $conferenceYear)
+            ->pluck('id')
+            ->toArray();
+
+        $speakers = Speaker::with('partner')
+            ->whereHas('talk.timeSlots', function ($query) use ($timeSlotIds) {
+                $query->whereIn('id', $timeSlotIds);
+            })
+            ->orWhereDoesntHave('talk.timeSlots')
+            ->get();
 
         return response()->json($speakers);
     }
@@ -57,12 +83,22 @@ class SpeakerController extends Controller
         foreach ($this->fillableAttributes as $attribute) {
             $speaker->$attribute = $request->input($attribute);
         }
-        $speaker->save();
 
-        return response()->json($speaker);
+        if ($request->hasFile('picture')) {
+            $image = $request->file('picture');
+            $imageName = $image->hashName();
+            $image->move(public_path('storage/images/speakers'), $imageName);
+            $speaker->picture = $imageName;
+        }
+
+        $speaker->save();
+        $savedSpeaker = Speaker::with('partner')->find($speaker->id);
+
+        return response()->json($savedSpeaker);
     }
 
-    public function updateSpeaker(Request $request, $id):JsonResponse
+
+    public function updateSpeaker(Request $request, $id): JsonResponse
     {
         $speaker = Speaker::find($id);
 
@@ -76,10 +112,19 @@ class SpeakerController extends Controller
             }
         }
 
-        $speaker->save();
+        if ($request->hasFile('picture')) {
+            $image = $request->file('picture');
+            $imageName = $image->hashName();
+            $image->move(public_path('storage/images/speakers'), $imageName);
+            $speaker->picture = $imageName;
+        }
 
-        return response()->json($speaker);
+        $speaker->save();
+        $savedSpeaker = Speaker::with('partner')->find($speaker->id);
+
+        return response()->json($savedSpeaker);
     }
+
 
     public function deleteSpeaker($id): JsonResponse
     {

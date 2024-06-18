@@ -30,5 +30,4 @@ class Talk extends Model
     {
         return $this->hasManyThrough(Stage::class, TimeSlot::class);
     }
-
 }

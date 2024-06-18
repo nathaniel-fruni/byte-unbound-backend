@@ -65,10 +65,6 @@ class AddConferencePartners extends Seeder
                 'conference_id' => 3,
                 'partner_id' => 9,
             ],
-            [
-                'conference_id' => 3,
-                'partner_id' => 10,
-            ],
         ];
 
         foreach ($keyPairs as $pair) {

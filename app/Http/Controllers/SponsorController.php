@@ -11,13 +11,19 @@ use Illuminate\Routing\Controller;
 class SponsorController extends Controller
 {
     private array $fillable_attributes = ["name", "logo"];
+    private $newestConference;
+
+    public function __construct()
+    {
+        $this->newestConference = Conference::orderBy('start_date', 'desc')->first();
+    }
 
     public function getSponsors(): JsonResponse
     {
-        $newestConference = Conference::orderBy('start_date', 'desc')->first();
-        $sponsors = Sponsor::whereHas('conference', function ($query) use ($newestConference) {
-            $query->where('conference_id', $newestConference->id);
+        $sponsors = Sponsor::whereHas('conference', function ($query) {
+            $query->where('conference_id', $this->newestConference->id);
         })->get();
+
         return response()->json($sponsors);
     }
 
@@ -33,14 +39,29 @@ class SponsorController extends Controller
 
     public function createSponsor(Request $request): JsonResponse
     {
-        $sponsor = new Sponsor();
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
 
-        foreach ($this->fillable_attributes as $attribute) {
-            $sponsor->$attribute = $request->input($attribute);
+        if ($request->hasFile('logo')) {
+            $image = $request->file('logo');
+            $imageName = $image->hashName();
+            $image->move(public_path('storage/images/sponsors'), $imageName);
+
+            $sponsor = new Sponsor();
+            $sponsor->name = $request->name;
+            $sponsor->logo = $imageName;
+            $sponsor->save();
+
+            if ($this->newestConference) {
+                $sponsor->conference()->attach($this->newestConference->id);
+            }
+
+            return response()->json($sponsor, 201);
         }
-        $sponsor->save();
 
-        return response()->json($sponsor);
+        return response()->json(['error' => 'Image upload failed.'], 500);
     }
 
     public function updateSponsor(Request $request, int $id): JsonResponse

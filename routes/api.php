@@ -18,12 +18,10 @@ use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\GalleryImageController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/get-speakers',[SpeakerController::class,'getSpeakers']);
+Route::get('/get-speakers',[SpeakerController::class,'getSpeakersPublic']);
+Route::get('/get-speakers-admin', [SpeakerController::class, 'getSpeakersAdmin']);
 Route::get('/get-speakers-byConference/{id}',[SpeakerController::class,'getSpeakersByConference']);
 Route::get('/get-speaker-byId/{id}', [SpeakerController::class, 'getSpeakerById']);
-Route::post('/create-speaker', [SpeakerController::class, 'createSpeaker']);
-Route::patch('/update-speaker/{id}', [SpeakerController::class, 'updateSpeaker']);
-Route::delete('/delete-speaker/{id}', [SpeakerController::class, 'deleteSpeaker']);
 
 Route::get('/get-conferences',[ConferenceController::class,'getConferences']);
 Route::get('/get-conference-byId/{id}',[ConferenceController::class,'getConferenceById']);
@@ -60,9 +58,6 @@ Route::get('/get-stage-byId/{id}', [StageController::class, 'getStageById']);
 
 Route::get('/get-talks', [TalkController::class, 'getTalks']);
 Route::get('/get-talk-byId/{id}', [TalkController::class, 'getTalkById']);
-Route::post('/create-talk', [TalkController::class, 'createTalk']);
-Route::patch('/update-talk/{id}', [TalkController::class, 'updateTalk']);
-Route::delete('/delete-talk/{id}', [TalkController::class, 'deleteTalk']);
 
 Route::get('/get-timeSlots', [TimeSlotController::class, 'getTimeSlots']);
 Route::get('/get-timeSlot-byId/{id}', [TimeSlotController::class, 'getTimeSlotById']);
@@ -94,6 +89,8 @@ Route::post('/create-gallery', [GalleryController::class, 'createGallery']);
 Route::patch('/update-gallery/{id}', [GalleryController::class, 'updateGallery']);
 Route::delete('/delete-gallery/{id}', [GalleryController::class, 'deleteGallery']);
 
+Route::post('/register-attendee', [RegistrationController::class, 'register']);
+Route::post('/unregister-attendee', [RegistrationController::class, 'unregister']);
 Route::get('/get-registrations', [RegistrationController::class, 'getRegistrations']);
 Route::get('/get-registration-byId/{id}', [RegistrationController::class, 'getRegistrationById']);
 Route::post('/create-registration', [RegistrationController::class, 'createRegistration']);
@@ -117,4 +114,10 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::post('/create-stage', [StageController::class, 'createStage']);
     Route::patch('/update-stage/{id}', [StageController::class, 'updateStage']);
     Route::post('/create-sponsor', [SponsorController::class, 'createSponsor']);
+    Route::post('/create-talk', [TalkController::class, 'createTalk']);
+    Route::patch('/update-talk/{id}', [TalkController::class, 'updateTalk']);
+    Route::delete('/delete-talk/{id}', [TalkController::class, 'deleteTalk']);
+    Route::post('/create-speaker', [SpeakerController::class, 'createSpeaker']);
+    Route::patch('/update-speaker/{id}', [SpeakerController::class, 'updateSpeaker']);
+    Route::delete('/delete-speaker/{id}', [SpeakerController::class, 'deleteSpeaker']);
 });
