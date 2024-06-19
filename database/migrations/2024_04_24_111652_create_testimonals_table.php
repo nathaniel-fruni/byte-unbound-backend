@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name', 255);
             $table->string('image', 255);
             $table->string('testimonal_text', 255);
-            $table->unsignedBigInteger('conference_id');
+            $table->foreignId('conference_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

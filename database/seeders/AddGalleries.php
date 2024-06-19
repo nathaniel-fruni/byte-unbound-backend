@@ -21,10 +21,6 @@ class AddGalleries extends Seeder
                 'name' => '2023',
                 'conference_id' => 2,
             ],
-            [
-                'name' => '2024',
-                'conference_id' => 3,
-            ],
         ];
 
         foreach ($galleries as $galleryData) {

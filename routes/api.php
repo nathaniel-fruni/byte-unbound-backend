@@ -84,8 +84,8 @@ Route::patch('/update-location/{id}', [LocationController::class, 'updateLocatio
 Route::delete('/delete-location/{id}', [LocationController::class, 'deleteLocation']);
 
 Route::get('/get-galleries', [GalleryController::class, 'getGalleries']);
+Route::get('/get-gallery-byConference/{conferenceId}', [GalleryController::class, 'getGalleryByConferenceId']);
 Route::get('/get-gallery-byId/{id}', [GalleryController::class, 'getGalleryById']);
-Route::post('/create-gallery', [GalleryController::class, 'createGallery']);
 Route::patch('/update-gallery/{id}', [GalleryController::class, 'updateGallery']);
 Route::delete('/delete-gallery/{id}', [GalleryController::class, 'deleteGallery']);
 
@@ -120,4 +120,5 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::post('/create-speaker', [SpeakerController::class, 'createSpeaker']);
     Route::patch('/update-speaker/{id}', [SpeakerController::class, 'updateSpeaker']);
     Route::delete('/delete-speaker/{id}', [SpeakerController::class, 'deleteSpeaker']);
+    Route::post('/create-gallery', [GalleryController::class, 'createGallery']);
 });

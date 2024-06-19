@@ -17,9 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->integer('capacity');
             $table->integer("remaining_capacity");
-            $table->foreignId('speaker_id')
-                ->constrained()
-                ->onDelete('cascade');
+            $table->foreignId('speaker_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
