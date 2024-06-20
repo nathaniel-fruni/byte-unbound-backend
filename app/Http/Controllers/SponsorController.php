@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Conference;
 use App\Models\Sponsor;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
@@ -25,6 +26,29 @@ class SponsorController extends Controller
         })->get();
 
         return response()->json($sponsors);
+    }
+
+    public function getSponsorsMetric()
+    {
+        $latestConference = Conference::orderBy('start_date', 'desc')->first();
+        $previousYearDate = Carbon::parse($latestConference->start_date)->subYear();
+        $previousYearConference = Conference::whereYear('start_date', $previousYearDate->year)
+            ->orderBy('start_date', 'desc')
+            ->first();
+
+        $latestConferenceSponsorsCount = $latestConference->sponsor()->count();
+        $previousYearConferenceSponsorsCount = $previousYearConference ? $previousYearConference->sponsor()->count() : 0;
+
+        if ($previousYearConferenceSponsorsCount > 0) {
+            $percentageDifference = (($latestConferenceSponsorsCount - $previousYearConferenceSponsorsCount) / $previousYearConferenceSponsorsCount) * 100;
+        } else {
+            $percentageDifference = $latestConferenceSponsorsCount > 0 ? 100 : 0;
+        }
+
+        return response()->json([
+            'current_year_unique_sponsors' => $latestConferenceSponsorsCount,
+            'percentage_difference' => round($percentageDifference),
+        ]);
     }
 
     public function getSponsorById(int $id): JsonResponse

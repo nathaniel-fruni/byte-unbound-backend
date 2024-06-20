@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class AddUsers extends Seeder
 {
@@ -35,7 +36,7 @@ class AddUsers extends Seeder
                 'email' => 'sykora@ukf.sk',
                 'password' => null,
                 'role' => 'attendee',
-                'verification_code' => null,
+                'verification_code' => bcrypt(Str::random(6)),
             ],
             [
                 'first_name' => 'Katarína',
@@ -43,7 +44,7 @@ class AddUsers extends Seeder
                 'email' => 'vargova@ukf.sk',
                 'password' => null,
                 'role' => 'attendee',
-                'verification_code' => null,
+                'verification_code' => bcrypt(Str::random(6)),
             ],
             [
                 'first_name' => 'Peter',
@@ -51,7 +52,7 @@ class AddUsers extends Seeder
                 'email' => 'horvath@ukf.sk',
                 'password' => null,
                 'role' => 'attendee',
-                'verification_code' => null,
+                'verification_code' => bcrypt(Str::random(6)),
             ],
             [
                 'first_name' => 'Jana',
@@ -59,7 +60,7 @@ class AddUsers extends Seeder
                 'email' => 'kovacova@ukf.sk',
                 'password' => null,
                 'role' => 'attendee',
-                'verification_code' => null,
+                'verification_code' => bcrypt(Str::random(6)),
             ],
             [
                 'first_name' => 'Martin',
@@ -67,7 +68,7 @@ class AddUsers extends Seeder
                 'email' => 'novak@ukf.sk',
                 'password' => null,
                 'role' => 'attendee',
-                'verification_code' => null,
+                'verification_code' => bcrypt(Str::random(6)),
             ]
         ];
 

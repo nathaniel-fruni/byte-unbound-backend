@@ -121,4 +121,9 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::patch('/update-speaker/{id}', [SpeakerController::class, 'updateSpeaker']);
     Route::delete('/delete-speaker/{id}', [SpeakerController::class, 'deleteSpeaker']);
     Route::post('/create-gallery', [GalleryController::class, 'createGallery']);
+    Route::get('/get-registrationsMetric', [RegistrationController::class, 'getRegistrationsMetric']);
+    Route::get('/get-sponsorsMetric', [SponsorController::class, 'getSponsorsMetric']);
+    Route::get('/get-stagesMetric', [StageController::class, 'getStagesMetric']);
+    Route::get('/get-stagesMetric', [StageController::class, 'getStagesMetric']);
+    Route::get('/get-talksMetric', [TalkController::class, 'getTalksMetric']);
 });

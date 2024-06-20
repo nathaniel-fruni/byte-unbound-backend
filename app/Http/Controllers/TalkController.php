@@ -39,6 +39,38 @@ class TalkController extends Controller
         return response()->json($talks);
     }
 
+    public function getTalksMetric(): JsonResponse
+    {
+        $latestTimeSlot = TimeSlot::orderBy('start_time', 'desc')->first();
+
+        if (!$latestTimeSlot) {
+            return response()->json([
+                'current_year_talks' => 0,
+                'percentage_difference' => 0,
+            ]);
+        }
+
+        $latestYear = Carbon::parse($latestTimeSlot->start_time)->year;
+        $previousYear = $latestYear - 1;
+        $latestYearTalksCount = TimeSlot::whereYear('start_time', $latestYear)
+            ->distinct('talk_id')
+            ->count('talk_id');
+        $previousYearTalksCount = TimeSlot::whereYear('start_time', $previousYear)
+            ->distinct('talk_id')
+            ->count('talk_id');
+
+        if ($previousYearTalksCount > 0) {
+            $percentageDifference = (($latestYearTalksCount - $previousYearTalksCount) / $previousYearTalksCount) * 100;
+        } else {
+            $percentageDifference = $latestYearTalksCount > 0 ? 100 : 0;
+        }
+
+        return response()->json([
+            'current_year_talks' => $latestYearTalksCount,
+            'percentage_difference' => round($percentageDifference),
+        ]);
+    }
+
     public function getTalkById(int $id): JsonResponse
     {
         $talk = Talk::find($id);

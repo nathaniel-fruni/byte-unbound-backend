@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Mail\OrganizerNotification;
 use App\Mail\RegistrationSuccessful;
 use App\Mail\UnregisteredSuccessfully;
+use App\Models\Conference;
 use App\Models\Registration;
 use App\Models\Talk;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
@@ -120,6 +122,46 @@ class RegistrationController extends Controller
             DB::rollBack();
             return response()->json(['message' => 'Unregistration failed', 'error' => $e->getMessage()], 500);
         }
+    }
+
+    public function getRegistrationsMetric()
+    {
+        $latestConference = Conference::orderBy('start_date', 'desc')->first();
+        $previousYearDate = Carbon::parse($latestConference->start_date)->subYear();
+        $previousYearConference = Conference::whereYear('start_date', $previousYearDate->year)
+            ->orderBy('start_date', 'desc')
+            ->first();
+
+        $currentYearStart = Carbon::parse($latestConference->start_date)->startOfYear();
+        $currentYearEnd = Carbon::parse($latestConference->start_date)->endOfYear();
+
+        if ($previousYearConference) {
+            $previousYearStart = Carbon::parse($previousYearConference->start_date)->startOfYear();
+            $previousYearEnd = Carbon::parse($previousYearConference->start_date)->endOfYear();
+        } else {
+            $previousYearStart = null;
+            $previousYearEnd = null;
+        }
+
+        $currentYearUniqueUsers = Registration::whereBetween('registered_at', [$currentYearStart, $currentYearEnd])
+            ->distinct('user_id')
+            ->count('user_id');
+        $previousYearUniqueUsers = Registration::whereBetween('registered_at', [$previousYearStart, $previousYearEnd])
+            ->distinct('user_id')
+            ->count('user_id');
+
+        if ($previousYearUniqueUsers > 0) {
+            $percentageDifference = (($currentYearUniqueUsers - $previousYearUniqueUsers) / $previousYearUniqueUsers) * 100;
+        } else {
+            $percentageDifference = $currentYearUniqueUsers > 0 ? 100 : 0;
+        }
+
+        $results = [
+            'current_year_unique_users' => $currentYearUniqueUsers,
+            'percentage_difference' => round($percentageDifference),
+        ];
+
+        return $results;
     }
 
     public function getRegistrations(): JsonResponse
