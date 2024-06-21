@@ -129,7 +129,9 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::delete('/delete-timeSlot/{id}', [TimeSlotController::class, 'deleteTimeSlot']);
     Route::get('/get-unassignedTalks', [TalkController::class, 'getUnassignedTalks']);
     Route::post('/create-conference',[ConferenceController::class,'createConference']);
+    Route::post('/create-page', [PageController::class, 'createPage']);
 });
-
+Route::get('/get-pages', [PageController::class, 'getPages']);
+Route::get('/get-page/{id}', [PageController::class, 'getPage']);
 
 
