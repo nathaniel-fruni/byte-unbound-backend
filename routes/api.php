@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrganizerController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\TestimonalController;
 use App\Http\Controllers\StageController;
@@ -26,7 +27,6 @@ Route::get('/get-speaker-byId/{id}', [SpeakerController::class, 'getSpeakerById'
 Route::get('/get-conferences',[ConferenceController::class,'getConferences']);
 Route::get('/get-conference-byId/{id}',[ConferenceController::class,'getConferenceById']);
 Route::get('/get-newestConference',[ConferenceController::class,'getNewestConference']);
-Route::post('/create-conference',[ConferenceController::class,'createConference']);
 Route::patch('/update-conference/{id}', [ConferenceController::class, 'updateConference']);
 Route::delete('/delete-conference/{id}', [ConferenceController::class, 'deleteConference']);
 
@@ -61,9 +61,7 @@ Route::get('/get-talk-byId/{id}', [TalkController::class, 'getTalkById']);
 
 Route::get('/get-timeSlots', [TimeSlotController::class, 'getTimeSlots']);
 Route::get('/get-timeSlot-byId/{id}', [TimeSlotController::class, 'getTimeSlotById']);
-Route::post('/create-timeSlot', [TimeSlotController::class, 'createTimeSlot']);
-Route::patch('/update-timeSlot/{id}', [TimeSlotController::class, 'updateTimeSlot']);
-Route::delete('/delete-timeSlot/{id}', [TimeSlotController::class, 'deleteTimeSlot']);
+Route::get('/get-timeSlot-byStageId/{stage_id}', [TimeSlotController::class, 'getTimeSlotsByStageId']);
 
 Route::get('/get-partners', [PartnerController::class, 'getPartners']);
 Route::get('/get-partner-byId/{id}', [PartnerController::class, 'getPartnerById']);
@@ -126,4 +124,12 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('/get-stagesMetric', [StageController::class, 'getStagesMetric']);
     Route::get('/get-stagesMetric', [StageController::class, 'getStagesMetric']);
     Route::get('/get-talksMetric', [TalkController::class, 'getTalksMetric']);
+    Route::post('/create-timeSlot', [TimeSlotController::class, 'createTimeSlot']);
+    Route::patch('/update-timeSlot/{id}', [TimeSlotController::class, 'updateTimeSlot']);
+    Route::delete('/delete-timeSlot/{id}', [TimeSlotController::class, 'deleteTimeSlot']);
+    Route::get('/get-unassignedTalks', [TalkController::class, 'getUnassignedTalks']);
+    Route::post('/create-conference',[ConferenceController::class,'createConference']);
 });
+
+
+

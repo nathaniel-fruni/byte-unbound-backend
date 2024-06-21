@@ -15,7 +15,7 @@ class Conference extends Model
 
     protected $table = 'conferences';
 
-    protected $fillable = ['title', 'short_description', 'long_description', 'info1', 'info2', 'start_date', 'end_date', 'registration_deadline', 'contact_email', 'location_id', 'address_id'];
+    protected $fillable = ['title', 'short_description', 'long_description', 'info1', 'info2', 'start_date', 'end_date', 'contact_email', 'location_id', 'address_id'];
 
     public function location(): BelongsTo
     {
@@ -55,5 +55,10 @@ class Conference extends Model
     public function stages(): BelongsToMany
     {
         return $this->belongsToMany(Stage::class, 'conference_stages');
+    }
+
+    public function pages(): BelongsToMany
+    {
+        return $this->belongsToMany(Page::class, 'conference_pages');
     }
 }

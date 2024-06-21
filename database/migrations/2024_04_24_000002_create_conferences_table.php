@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('info2', 255);
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->dateTime('registration_deadline');
             $table->string('contact_email',45);
             $table->unsignedBigInteger('location_id');
             $table->unsignedBigInteger('address_id');

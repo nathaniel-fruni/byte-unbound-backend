@@ -23,8 +23,8 @@ class AddTimeSlots extends Seeder
             [
                 'stage_id' => 1,
                 'talk_id' => 7,
-                'start_time' => Carbon::create(2024, 6, 25, 9, 0, 0),
-                'end_time' => Carbon::create(2024, 6, 28, 9, 45, 0),
+                'start_time' => Carbon::create(2024, 6, 25, 13, 0, 0),
+                'end_time' => Carbon::create(2024, 6, 28, 13, 45, 0),
             ],
             [
                 'stage_id' => 1,
@@ -53,8 +53,8 @@ class AddTimeSlots extends Seeder
             [
                 'stage_id' => 2,
                 'talk_id' => 2,
-                'start_time' => Carbon::create(2024, 6, 25, 9, 0, 0),
-                'end_time' => Carbon::create(2024, 6, 28, 9, 45, 0),
+                'start_time' => Carbon::create(2024, 6, 25, 13, 0, 0),
+                'end_time' => Carbon::create(2024, 6, 28, 13, 45, 0),
             ],
             [
                 'stage_id' => 2,

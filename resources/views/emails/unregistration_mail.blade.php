@@ -39,7 +39,7 @@
 <div class="container">
     <h2>Odhlásenie z konferencie</h2>
     <p>Boli ste úspešne odhlásený.</p>
-    <p>S pozdravom,<br>byteUnbound24 Tím</p>
+    <p>S pozdravom,<br>nConnect24 Tím</p>
 </div>
 </body>
 </html>

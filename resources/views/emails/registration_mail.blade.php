@@ -56,7 +56,7 @@
         @endforeach
     </ul>
 
-    <p>S pozdravom,<br>byteUnbound24 Tím</p>
+    <p>S pozdravom,<br>nConnect24 Tím</p>
 </div>
 </body>
 </html>

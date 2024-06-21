@@ -36,9 +36,15 @@ class TestimonalController extends Controller
     public function createTestimonal(Request $request): JsonResponse
     {
         $testimonal = new Testimonal();
-
         foreach ($this->fillable_attributes as $attribute) {
             $testimonal->$attribute = $request->input($attribute);
+        }
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = $image->hashName();
+            $image->move(public_path('storage/images/testimonals'), $imageName);
+            $testimonal->image = $imageName;
         }
         $testimonal->save();
 
@@ -57,6 +63,13 @@ class TestimonalController extends Controller
             if ($request->has($attribute)) {
                 $testimonal->$attribute = $request->input($attribute);
             }
+        }
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = $image->hashName();
+            $image->move(public_path('storage/images/testimonals'), $imageName);
+            $testimonal->image = $imageName;
         }
         $testimonal->save();
 

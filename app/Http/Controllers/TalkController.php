@@ -39,6 +39,13 @@ class TalkController extends Controller
         return response()->json($talks);
     }
 
+    public function getUnassignedTalks(): JsonResponse
+    {
+        $talksWithoutTimeSlots = Talk::doesntHave('timeSlots')->get();
+
+        return response()->json($talksWithoutTimeSlots);
+    }
+
     public function getTalksMetric(): JsonResponse
     {
         $latestTimeSlot = TimeSlot::orderBy('start_time', 'desc')->first();
