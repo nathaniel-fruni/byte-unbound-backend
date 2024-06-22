@@ -9,15 +9,20 @@ use Illuminate\Routing\Controller;
 
 class PageController extends Controller
 {
+    private $newestConference;
+
+    public function __construct()
+    {
+        $this->newestConference = fetchNewestConference();
+    }
+
     public function getPages()
     {
-        $newestConference = Conference::orderBy('start_date', 'desc')->first();
-
-        if (!$newestConference) {
+        if (!$this->newestConference) {
             return response()->json(['error' => 'No conference found.']);
         }
 
-        $pages = $newestConference->pages;
+        $pages = $this->newestConference->pages;
 
         return response()->json($pages);
     }
@@ -30,23 +35,22 @@ class PageController extends Controller
 
     public function createPage(Request $request)
     {
+        $request->validate([
+            'title' => 'required|string',
+            'page_content' => 'required|string',
+        ]);
+
         $page = new Page;
         $page->title = $request->title;
         $page->content = $request->page_content;
         $page->save();
 
-        $newestConference = Conference::orderBy('start_date', 'desc')->first();
-
-        if (!$newestConference) {
-            return response()->json(['error' => 'No conference found.']);
-        }
-
-        $newestConference->pages()->attach($page->id);
+        $this->newestConference->pages()->attach($page->id);
 
         return response()->json([
             'message' => 'Page created successfully',
             'page_id' => $page->id,
-            'conference_id' => $newestConference->id,
+            'conference_id' => $this->newestConference->id,
         ]);
     }
 }

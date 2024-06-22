@@ -23,18 +23,14 @@ class TestimonalController extends Controller
         return response()->json($testimonals);
     }
 
-    public function getTestimonalById(int $id): JsonResponse
-    {
-        $testimonal = Testimonal::find($id);
-        if (!$testimonal) {
-            return response()->json(['message' =>'Testimonal not found'], 404);
-        }
-
-        return response()->json($testimonal);
-    }
-
     public function createTestimonal(Request $request): JsonResponse
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'testimonal_text' => 'required|string',
+        ]);
+
         $testimonal = new Testimonal();
         foreach ($this->fillable_attributes as $attribute) {
             $testimonal->$attribute = $request->input($attribute);
@@ -53,6 +49,12 @@ class TestimonalController extends Controller
 
     public function updateTestimonal(Request $request, int $id): JsonResponse
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'testimonal_text' => 'required|string',
+        ]);
+
         $testimonal = Testimonal::find($id);
 
         if (!$testimonal) {

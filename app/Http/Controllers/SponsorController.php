@@ -11,12 +11,11 @@ use Illuminate\Routing\Controller;
 
 class SponsorController extends Controller
 {
-    private array $fillable_attributes = ["name", "logo"];
     private $newestConference;
 
     public function __construct()
     {
-        $this->newestConference = Conference::orderBy('start_date', 'desc')->first();
+        $this->newestConference = fetchNewestConference();
     }
 
     public function getSponsors(): JsonResponse
@@ -30,35 +29,24 @@ class SponsorController extends Controller
 
     public function getSponsorsMetric()
     {
-        $latestConference = Conference::orderBy('start_date', 'desc')->first();
-        $previousYearDate = Carbon::parse($latestConference->start_date)->subYear();
+        $previousYearDate = Carbon::parse($this->newestConference->start_date)->subYear();
         $previousYearConference = Conference::whereYear('start_date', $previousYearDate->year)
             ->orderBy('start_date', 'desc')
             ->first();
 
-        $latestConferenceSponsorsCount = $latestConference->sponsor()->count();
+        $newestConferenceSponsorsCount = $this->newestConference->sponsor()->count();
         $previousYearConferenceSponsorsCount = $previousYearConference ? $previousYearConference->sponsor()->count() : 0;
 
         if ($previousYearConferenceSponsorsCount > 0) {
-            $percentageDifference = (($latestConferenceSponsorsCount - $previousYearConferenceSponsorsCount) / $previousYearConferenceSponsorsCount) * 100;
+            $percentageDifference = (($newestConferenceSponsorsCount - $previousYearConferenceSponsorsCount) / $previousYearConferenceSponsorsCount) * 100;
         } else {
-            $percentageDifference = $latestConferenceSponsorsCount > 0 ? 100 : 0;
+            $percentageDifference = $newestConferenceSponsorsCount > 0 ? 100 : 0;
         }
 
         return response()->json([
-            'current_year_unique_sponsors' => $latestConferenceSponsorsCount,
+            'current_year_unique_sponsors' => $newestConferenceSponsorsCount,
             'percentage_difference' => round($percentageDifference),
         ]);
-    }
-
-    public function getSponsorById(int $id): JsonResponse
-    {
-        $sponsor = Sponsor::find($id);
-        if (!$sponsor) {
-            return response()->json(['message' =>'Sponsor not found'], 404);
-        }
-
-        return response()->json($sponsor);
     }
 
     public function createSponsor(Request $request): JsonResponse
@@ -86,34 +74,5 @@ class SponsorController extends Controller
         }
 
         return response()->json(['error' => 'Image upload failed.'], 500);
-    }
-
-    public function updateSponsor(Request $request, int $id): JsonResponse
-    {
-        $sponsor = Sponsor::find($id);
-
-        if (!$sponsor) {
-            return response()->json(['message' => 'Sponsor not found'], 404);
-        }
-
-        foreach ($this->fillable_attributes as $attribute) {
-            if ($request->has($attribute)) {
-                $sponsor->$attribute = $request->input($attribute);
-            }
-        }
-        $sponsor->save();
-
-        return response()->json($sponsor);
-    }
-
-    public function deleteSponsor($id): JsonResponse
-    {
-        $sponsor = Sponsor::find($id);
-        if (!$sponsor) {
-            return response()->json(['message' => 'Sponsor not found'], 404);
-        }
-        $sponsor->delete();
-
-        return response()->json(['message' => 'Sponsor deleted successfully']);
     }
 }

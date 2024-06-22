@@ -18,13 +18,17 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
-
 class RegistrationController extends Controller
 {
-    private array $fillable_attributes = ["user_id", "talk_id", "registered_at", "attended"];
-
     public function register(Request $request) : JsonResponse
     {
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|max:255',
+            'talk_ids' => 'required|string',
+        ]);
+
         $email = $request->input('email');
 
         DB::beginTransaction();
@@ -162,62 +166,5 @@ class RegistrationController extends Controller
         ];
 
         return $results;
-    }
-
-    public function getRegistrations(): JsonResponse
-    {
-        $registrations = Registration::all();
-        return response()->json($registrations);
-    }
-
-    public function getRegistrationById(int $id): JsonResponse
-    {
-        $registration = Registration::find($id);
-        if (!$registration) {
-            return response()->json(['message' =>'Registration not found'], 404);
-        }
-
-        return response()->json($registration);
-    }
-
-    public function createRegistration(Request $request): JsonResponse
-    {
-        $registration = new Registration();
-
-        foreach ($this->fillable_attributes as $attribute) {
-            $registration->$attribute = $request->input($attribute);
-        }
-        $registration->save();
-
-        return response()->json($registration);
-    }
-
-    public function updateRegistration(Request $request, int $id): JsonResponse
-    {
-        $registration = Registration::find($id);
-
-        if (!$registration) {
-            return response()->json(['message' => 'Registration not found'], 404);
-        }
-
-        foreach ($this->fillable_attributes as $attribute) {
-            if ($request->has($attribute)) {
-                $registration->$attribute = $request->input($attribute);
-            }
-        }
-        $registration->save();
-
-        return response()->json($registration);
-    }
-
-    public function deleteRegistration($id): JsonResponse
-    {
-        $registration = Registration::find($id);
-        if (!$registration) {
-            return response()->json(['message' => 'Registration not found'], 404);
-        }
-        $registration->delete();
-
-        return response()->json(['message' => 'Registration deleted successfully']);
     }
 }

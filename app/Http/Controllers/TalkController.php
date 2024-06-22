@@ -13,16 +13,23 @@ use Illuminate\Routing\Controller;
 class TalkController extends Controller
 {
     private array $fillable_attributes = ["title", "description", "capacity", "remaining_capacity", "speaker_id"];
+    private $newestConference;
+    private $conferenceYear;
+
+    public function __construct()
+    {
+        $this->newestConference = fetchNewestConference();
+        $this->conferenceYear = Carbon::parse($this->newestConference->start_date)->year;
+    }
 
     public function getTalks(): JsonResponse
     {
-        $newestConference = Conference::orderBy('start_date', 'desc')->first();
-        $conferenceYear = Carbon::parse($newestConference->start_date)->year;
+        $newestConference = $this->newestConference;
 
         $timeSlotIds = TimeSlot::whereHas('stage.conferences', function ($query) use ($newestConference) {
             $query->where('id', $newestConference->id);
         })
-            ->whereYear('start_time', $conferenceYear)
+            ->whereYear('start_time', $this->conferenceYear)
             ->pluck('id')
             ->toArray();
 
@@ -78,18 +85,16 @@ class TalkController extends Controller
         ]);
     }
 
-    public function getTalkById(int $id): JsonResponse
-    {
-        $talk = Talk::find($id);
-        if (!$talk) {
-            return response()->json(['message' =>'Talk not found'], 404);
-        }
-
-        return response()->json($talk);
-    }
-
     public function createTalk(Request $request): JsonResponse
     {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'capacity' => 'integer',
+            'remaining_capacity' => 'required|integer',
+            'speaker_id' => 'required|integer'
+        ]);
+
         $talk = new Talk();
 
         foreach ($this->fillable_attributes as $attribute) {
@@ -103,6 +108,14 @@ class TalkController extends Controller
 
     public function updateTalk(Request $request, int $id):JsonResponse
     {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'capacity' => 'integer',
+            'remaining_capacity' => 'required|integer',
+            'speaker_id' => 'required|integer'
+        ]);
+
         $talk = Talk::find($id);
 
         if (!$talk) {

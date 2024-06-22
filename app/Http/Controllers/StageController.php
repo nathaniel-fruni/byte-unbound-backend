@@ -11,9 +11,17 @@ use Illuminate\Routing\Controller;
 
 class StageController extends Controller
 {
+    private $newestConference;
+
+    public function __construct()
+    {
+        $this->newestConference = fetchNewestConference();
+    }
+
     public function getStages(): JsonResponse
     {
-        $newestConference = Conference::orderBy('start_date', 'desc')->first();
+        $newestConference = $this->newestConference;
+
         $stages = Stage::whereHas('conferences', function ($query) use ($newestConference) {
             $query->where('conference_id', $newestConference->id);
         })->get();
@@ -23,13 +31,12 @@ class StageController extends Controller
 
     public function getStagesMetric()
     {
-        $latestConference = Conference::orderBy('start_date', 'desc')->first();
-        $previousYearDate = Carbon::parse($latestConference->start_date)->subYear();
+        $previousYearDate = Carbon::parse($this->newestConference->start_date)->subYear();
         $previousYearConference = Conference::whereYear('start_date', $previousYearDate->year)
             ->orderBy('start_date', 'desc')
             ->first();
 
-        $latestConferenceStageCount = $latestConference->stages()->count();
+        $latestConferenceStageCount = $this->newestConference->stages()->count();
         $previousYearConferenceStageCount = $previousYearConference ? $previousYearConference->stages()->count() : 0;
 
         if ($previousYearConferenceStageCount > 0) {
@@ -44,20 +51,13 @@ class StageController extends Controller
         ]);
     }
 
-    public function getStageById(int $id): JsonResponse
-    {
-        $stage = Stage::find($id);
-        if (!$stage) {
-            return response()->json(['message' =>'Stage not found'], 404);
-        }
-
-        return response()->json($stage);
-    }
-
     public function createStage(Request $request): JsonResponse
     {
-        $newestConference = Conference::orderBy('start_date', 'desc')->first();
-        if (!$newestConference) {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        if (!$this->newestConference) {
             return response()->json(['message' => 'No conference found'], 404);
         }
 
@@ -65,7 +65,7 @@ class StageController extends Controller
         $stage->name = $request->input("name");
         $stage->save();
 
-        $newestConference->stages()->attach($stage->id);
+        $this->newestConference->stages()->attach($stage->id);
 
         return response()->json($stage);
     }
@@ -73,6 +73,10 @@ class StageController extends Controller
 
     public function updateStage(Request $request, int $id):JsonResponse
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
         $stage = Stage::find($id);
 
         if (!$stage) {

@@ -21,7 +21,6 @@ return new class extends Migration
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->string('contact_email',45);
-            $table->unsignedBigInteger('location_id');
             $table->unsignedBigInteger('address_id');
             $table->timestamps();
         });

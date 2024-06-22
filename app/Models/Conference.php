@@ -15,12 +15,8 @@ class Conference extends Model
 
     protected $table = 'conferences';
 
-    protected $fillable = ['title', 'short_description', 'long_description', 'info1', 'info2', 'start_date', 'end_date', 'contact_email', 'location_id', 'address_id'];
+    protected $fillable = ['title', 'short_description', 'long_description', 'info1', 'info2', 'start_date', 'end_date', 'contact_email', 'address_id'];
 
-    public function location(): BelongsTo
-    {
-        return $this->belongsTo(Location::class);
-    }
 
     public function address(): BelongsTo
     {

@@ -12,18 +12,24 @@ use Illuminate\Routing\Controller;
 
 class TimeSlotController extends Controller
 {
-    private array $fillable_attributes = ["stage_id", "talk_id", "start_time", "end_time"];
+    private $newestConference;
+    private $conferenceYear;
+
+    public function __construct()
+    {
+        $this->newestConference = fetchNewestConference();
+        $this->conferenceYear = Carbon::parse($this->newestConference->start_date)->year;
+    }
 
     public function getTimeSlots(): JsonResponse
     {
-        $newestConference = Conference::orderBy('start_date', 'desc')->first();
-        $conferenceYear = Carbon::parse($newestConference->start_date)->year;
+        $newestConference = $this->newestConference;
 
         $timeSlots = TimeSlot::with('stage', 'talk.speaker.partner')
             ->whereHas('stage.conferences', function ($query) use ($newestConference) {
                 $query->where('id', $newestConference->id);
             })
-            ->whereYear('start_time', $conferenceYear)
+            ->whereYear('start_time', $this->conferenceYear)
             ->orderBy('start_time')
             ->get();
 
@@ -36,17 +42,16 @@ class TimeSlotController extends Controller
             return response()->json(['message' => 'Invalid stage_id provided'], 400);
         }
 
-        $newestConference = Conference::orderBy('start_date', 'desc')->first();
+        $newestConference = $this->newestConference;
         if (!$newestConference) {
             return response()->json(['message' => 'No conferences found'], 404);
         }
-        $conferenceYear = Carbon::parse($newestConference->start_date)->year;
 
         $timeSlots = TimeSlot::with('talk')
             ->whereHas('stage.conferences', function ($query) use ($newestConference) {
                 $query->where('id', $newestConference->id);
             })
-            ->whereYear('start_time', $conferenceYear)
+            ->whereYear('start_time', $this->conferenceYear)
             ->where('stage_id', $stage_id)
             ->orderBy('start_time')
             ->get();
@@ -56,9 +61,17 @@ class TimeSlotController extends Controller
 
     public function createTimeSlot(Request $request): JsonResponse
     {
-        $newestConference = Conference::orderBy('start_date', 'desc')->first();
-        $conferenceStartDate = $newestConference->start_date;
-        $conferenceEndDate = $newestConference->end_date;
+        $request->validate([
+            'start_time.HH' => 'required|string|max:2',
+            'start_time.mm' => 'required|string|max:2',
+            'end_time.HH' => 'required|string|max:2',
+            'end_time.mm' => 'required|string|max:2',
+            'talk_id' => 'required|integer',
+            'stage_id' => 'required|integer',
+        ]);
+
+        $conferenceStartDate = $this->newestConference->start_date;
+        $conferenceEndDate = $this->newestConference->end_date;
 
         $startTime = $request->input('start_time.HH') . ':' . $request->input('start_time.mm');
         $endTime = $request->input('end_time.HH') . ':' . $request->input('end_time.mm');
@@ -87,11 +100,19 @@ class TimeSlotController extends Controller
 
     public function updateTimeSlot(Request $request, int $id): JsonResponse
     {
+        $request->validate([
+            'start_time.HH' => 'required|string|max:2',
+            'start_time.mm' => 'required|string|max:2',
+            'end_time.HH' => 'required|string|max:2',
+            'end_time.mm' => 'required|string|max:2',
+            'talk_id' => 'required|integer',
+            'stage_id' => 'required|integer',
+        ]);
+
         $timeSlot = TimeSlot::findOrFail($id);
 
-        $newestConference = Conference::orderBy('start_date', 'desc')->first();
-        $conferenceStartDate = $newestConference->start_date;
-        $conferenceEndDate = $newestConference->end_date;
+        $conferenceStartDate = $this->newestConference->start_date;
+        $conferenceEndDate = $this->newestConference->end_date;
 
         $startTime = $request->input('start_time');
         $endTime = $request->input('end_time');

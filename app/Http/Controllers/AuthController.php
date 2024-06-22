@@ -33,7 +33,7 @@ class AuthController extends Controller
                 'message' => 'Admin registered successfully',
             ], 201);
         } else {
-            return response()->json(['error' => 'Admin registration unsuccessful']);
+            return response()->json(['error' => 'Admin registration unsuccessful'], 500);
         }
     }
 
@@ -59,7 +59,7 @@ class AuthController extends Controller
         $response = response()->json([
             'accessToken' => $token,
             'token_type' => 'Bearer',
-        ]);
+        ], 200);
         $response->cookie('access_token', $token, 0, null, null, false, true); // posledný parameter HttpOnly
 
         return $response;
@@ -71,7 +71,7 @@ class AuthController extends Controller
 
         $response = response()->json([
             'message' => 'Logged out successfully'
-        ]);
+        ], 200);
         $response->cookie('access_token', '', 0, null, null, false, true);
 
         return $response;

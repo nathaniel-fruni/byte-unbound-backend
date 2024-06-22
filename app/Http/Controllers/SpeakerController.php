@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Conference;
 use App\Models\Speaker;
 use App\Models\TimeSlot;
 use Carbon\Carbon;
@@ -14,20 +13,20 @@ class SpeakerController extends Controller
 {
     private array $fillableAttributes = ['first_name', 'last_name', 'short_description', 'long_description', 'picture', 'linkedin', 'partner_id'];
     private $newestConference;
+    private $conferenceYear;
 
     public function __construct()
     {
-        $this->newestConference = Conference::orderBy('start_date', 'desc')->first();
+        $this->newestConference = fetchNewestConference();
+        $this->conferenceYear = Carbon::parse($this->newestConference->start_date)->year;
     }
 
     public function getSpeakersPublic(): JsonResponse
     {
-        $conferenceYear = Carbon::parse($this->newestConference->start_date)->year;
-
         $timeSlotIds = TimeSlot::whereHas('stage.conferences', function ($query) {
             $query->where('id', $this->newestConference->id);
         })
-            ->whereYear('start_time', $conferenceYear)
+            ->whereYear('start_time', $this->conferenceYear)
             ->pluck('id')
             ->toArray();
 
@@ -41,12 +40,10 @@ class SpeakerController extends Controller
 
     public function getSpeakersAdmin(): JsonResponse
     {
-        $conferenceYear = Carbon::parse($this->newestConference->start_date)->year;
-
         $timeSlotIds = TimeSlot::whereHas('stage.conferences', function ($query) {
             $query->where('id', $this->newestConference->id);
         })
-            ->whereYear('start_time', $conferenceYear)
+            ->whereYear('start_time', $this->conferenceYear)
             ->pluck('id')
             ->toArray();
 
@@ -57,14 +54,6 @@ class SpeakerController extends Controller
             ->orWhereDoesntHave('talk.timeSlots')
             ->get();
 
-        return response()->json($speakers);
-    }
-
-    public function getSpeakersByConference($conference_id): JsonResponse
-    {
-        $speakers = Speaker::whereHas('talk.timeSlots.stage.conferences', function ($query) use ($conference_id) {
-                $query->where('id', $conference_id);
-            })->get();
         return response()->json($speakers);
     }
 
@@ -79,6 +68,16 @@ class SpeakerController extends Controller
 
     public function createSpeaker(Request $request): JsonResponse
     {
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'short_description' => 'required|string',
+            'long_description' => 'required|string',
+            'picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'linkedin' => 'nullable|url',
+            'partner_id' => 'nullable|string'
+        ]);
+
         $speaker = new Speaker();
         foreach ($this->fillableAttributes as $attribute) {
             $speaker->$attribute = $request->input($attribute);
@@ -100,6 +99,16 @@ class SpeakerController extends Controller
 
     public function updateSpeaker(Request $request, $id): JsonResponse
     {
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'short_description' => 'required|string',
+            'long_description' => 'required|string',
+            'picture' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'linkedin' => 'nullable|url',
+            'partner_id' => 'nullable|string'
+        ]);
+
         $speaker = Speaker::find($id);
 
         if (!$speaker) {

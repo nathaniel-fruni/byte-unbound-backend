@@ -24,7 +24,6 @@ class AddConferences extends Seeder
                 'end_date' => Carbon::create(2022, 6, 25, 15, 0, 0),
                 'registration_deadline' => Carbon::create(2022, 6, 23, 23, 59, 59),
                 'contact_email' => 'info@nconnect.sk',
-                'location_id' => 3,
                 'address_id' => 1
             ],
             [
@@ -37,7 +36,6 @@ class AddConferences extends Seeder
                 'end_date' => Carbon::create(2023, 6, 25, 15, 0, 0),
                 'registration_deadline' => Carbon::create(2023, 6, 23, 23, 59, 59),
                 'contact_email' => 'info@nconnect.sk',
-                'location_id' => 1,
                 'address_id' => 2
             ],
             [
@@ -50,7 +48,6 @@ class AddConferences extends Seeder
                 'end_date' => Carbon::create(2024, 6, 25, 15, 0, 0),
                 'registration_deadline' => Carbon::create(2024, 6, 23, 23, 59, 59),
                 'contact_email' => 'info@nconnect.sk',
-                'location_id' => 2,
                 'address_id' => 3
             ],
         ];
@@ -65,7 +62,6 @@ class AddConferences extends Seeder
             $conference->start_date = $conferenceData['start_date'];
             $conference->end_date = $conferenceData['end_date'];
             $conference->contact_email = $conferenceData['contact_email'];
-            $conference->location_id = $conferenceData['location_id'];
             $conference->address_id = $conferenceData['address_id'];
             $conference->save();
         }
